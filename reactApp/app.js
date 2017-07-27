@@ -6,8 +6,6 @@ import { Provider } from 'react-redux';
 import rootReducer from './reducers/index';
 const store = createStore(rootReducer);
 require('../css/main.css');
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {BrowserRouter, Route} from 'react-router-dom';
 
 /* This can check if your electron app can communicate with your backend */
 // fetch('http://localhost:3000')
@@ -16,11 +14,7 @@ import {BrowserRouter, Route} from 'react-router-dom';
 // .catch(err => {throw err})
 ReactDOM.render(
      <Provider store={store}>
-      <MuiThemeProvider>
-        <BrowserRouter>
-          <Route path="/" component={App}/>
-        </BrowserRouter>
-      </MuiThemeProvider>
+        <App />
      </Provider>,
      document.getElementById('root')
    );

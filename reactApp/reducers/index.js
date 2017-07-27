@@ -1,9 +1,12 @@
 import { combineReducers } from 'redux';
+
 // import reducers from other files
 import editorReducer from './editorReducer';
 import documentListReducer from './documentListReducer';
 import editorViewOpenReducer from './editorViewOpenReducer';
 import editorViewRedirectReducer from './editorViewRedirectReducer';
+import loginReducer from './loginReducer';
+import registerReducer from './registerReducer';
 
 
 // import * as types from '../actions/types';
@@ -13,7 +16,9 @@ const rootReducer = combineReducers({
   documentList: documentListReducer,
   editorViewOpenState: editorViewOpenReducer,
   editorViewRedirectState: editorViewRedirectReducer,
-  editorState: editorReducer
+  editorState: editorReducer,
+  loginState: loginReducer,
+  registerState: registerReducer
 });
 
 export default rootReducer;
