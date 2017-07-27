@@ -70,13 +70,7 @@ const colors = {
 };
 
 const tempStyles = {
-  addDocSeparator: {
-    'backgroundColor': colors.TOP_FONT_COLOR,
-    'marginLeft': '10%',
-    'marginRight': '8%',
-    'height': '50px',
-    'marginTop': '-4px'
-  },
+
   addDocTextFieldStyle: {
     'fontColor': colors.TOP_FONT_COLOR,
     'color': colors.TOP_FONT_COLOR,
@@ -165,7 +159,7 @@ let DocumentPortal = ({userId, onNewClick, onNewSharedClick, documentList, onRen
                     style={tempStyles.addDocTextFieldStyle}
                     id="docName"
                   />
-                  <ToolbarSeparator style={tempStyles.addDocSeparator}/>
+                  <ToolbarSeparator className='addDocSeparator'/>
                   <IconButton onClick={() => onNewDocClick(userId, document.getElementById('docName').value, onNewClick)} iconStyle={tempStyles.newDocStyle} style={tempStyles.newDocButtonStyle}>
                     <NewDoc />
                   </IconButton>
@@ -198,7 +192,7 @@ let DocumentPortal = ({userId, onNewClick, onNewSharedClick, documentList, onRen
           return (
             <li key={doc.id}>
               <Link to={"/editor/"+doc.docId}>{doc.docName}</Link>
-              <IconButton onClick={() => onDeleteDocClick(userId, doc.docId)}><i className="material-icons">delete_forever</i></IconButton>
+              {doc.isShared ? <div></div>:<IconButton onClick={() => onDeleteDocClick(userId, doc.docId)}><i className="material-icons">delete_forever</i></IconButton>}
             </li>
           );
         })}
