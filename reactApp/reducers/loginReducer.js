@@ -1,17 +1,17 @@
 import axios from 'axios';
 
 const loginReducer = (state = {'username': "", 'password': "", 'id':""}, action) => {
+  console.log('actttttion:', action);
   switch (action.type) {
     case 'LOGIN':
     // get request to verify login
     var newId = ""
     const newState = Object.assign(state);
-    // console.log(state.username);
-    // console.log(state.password);
-        axios.post('http://localhost:3005/login', {
-          password: state.password,
-          username: state.username,
-        })
+
+    axios.post('http://localhost:3005/login', {
+      password: state.password,
+      username: state.username,
+    })
         .then(function(response){
         console.log("1", response)
         newState.username = state.password

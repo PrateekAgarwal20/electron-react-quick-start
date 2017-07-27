@@ -2,7 +2,6 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models/models');
-var axios = require('axios')
 
 module.exports = function(passport) {
 

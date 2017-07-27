@@ -8,73 +8,84 @@ import FlatButton from 'material-ui/FlatButton';
 import {Redirect} from 'react-router-dom';
 import Snackbar from 'material-ui/Snackbar';
 
+import PropTypes from 'prop-types';
+import {goBack, save, requestClose} from '../actions/actions.js';
+import {connect} from 'react-redux';
+import axios from 'axios';
+
+// TODO: import {Documents} from 'path to models'
+
 const styles = {
   title: {
     cursor: 'pointer',
   },
 };
 
-class EditorView extends React.Component {
+const onSaveClick = (docId, editorState) => {
+  axios.post('http://localhost:3005/save', {
+    docId,
+    editorState
+  });
+};
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      redirectToHome: false,
-      open: false,
-    };
-  }
-
-  handleRequestClose() {
-    this.setState({
-      open: false,
-    });
-  }
-
-  onSave() {
-    // TODO: if document exists, update. Else, create and save
-    this.setState({
-      open: true,
-    });
-  }
-
-  onBack() {
-    // TODO: save document and go back
-    this.setState({
-      redirectToHome: true,
-    });
-  }
-
-  render() {
-    if (this.state.redirectToHome) {
-      return <Redirect push to="/documents" />;
-    } else {
-      return (
-        <div className='outsideStyle'>
-          <AppBar
-            style={{
-              backgroundColor: '#3F51B5'
-            }}
-            title={<span style={styles.title}>This is the document title</span>}
-            iconElementLeft={<IconButton onClick={() => this.onBack()}><i className="material-icons">arrow_back</i></IconButton>}
-            iconElementRight={<FlatButton onClick={() => this.onSave()} label="Save Changes" />}
+let EditorView = ({docId, redirectToHome, open, handleRequestClose, onBack, onSave, editorState}) => {
+  if (redirectToHome) {
+    return <Redirect push to="/documents" />;
+  } else {
+    return (
+      <div className='outsideStyle'>
+        <AppBar
+          style={{
+            backgroundColor: '#3F51B5'
+          }}
+          title={<span style={styles.title}>This is the document title</span>}
+          iconElementLeft={<IconButton onClick={() => onBack()}><i className="material-icons">arrow_back</i></IconButton>}
+          iconElementRight={<FlatButton onClick={() => onSaveClick(docId, editorState)} label="Save Changes" />}
+        />
+        <MuiThemeProvider>
+          <Toolbar />
+        </MuiThemeProvider>
+        <div className='textStyle'><TextEdit/></div>
+        <div>
+          <Snackbar
+            open={open}
+            message="Changes saved!"
+            autoHideDuration={1000}
+            onRequestClose={() => handleRequestClose()}
           />
-          <MuiThemeProvider>
-            <Toolbar />
-          </MuiThemeProvider>
-          <div className='textStyle'><TextEdit/></div>
-          <div>
-            <Snackbar
-              open={this.state.open}
-              message="Changes saved!"
-              autoHideDuration={1000}
-              onRequestClose={() => this.handleRequestClose()}
-            />
-          </div>
         </div>
-      );
-    }
-
+      </div>
+    );
   }
-}
+};
+
+EditorView.propTypes = {
+  editorState: PropTypes.object,
+  redirectToHome: PropTypes.bool,
+  open: PropTypes.bool,
+  docId: PropTypes.String
+};
+
+const mapStateToProps = state => {
+  return {
+    docId: '59791674b69f8b495e2377dd',
+    redirectToHome: state.editorViewRedirectState,
+    open: state.editorViewOpenState,
+    editorState: state.editorState
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    handleRequestClose: () => dispatch(requestClose()),
+    onBack: () => dispatch(goBack()),
+    // onSave: (editorState) => dispatch(save(editorState)),
+  };
+};
+
+EditorView = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(EditorView);
 
 export default EditorView;

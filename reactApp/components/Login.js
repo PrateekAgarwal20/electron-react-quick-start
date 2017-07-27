@@ -21,7 +21,7 @@ let Login = ({username, updateUsername, password, updatePassword, onSubmit}) => 
     <div className="form-group">
         <button className="btn btn-success" onClick={(e) => {
           e.preventDefault();
-          onSubmit();
+          onSubmit(username, password);
         }}>Login</button>
         <Link to="/register">Register</Link>
     </div>
