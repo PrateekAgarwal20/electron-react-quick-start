@@ -196,7 +196,7 @@ let DocumentPortal = ({userId, onNewClick, onNewSharedClick, documentList, onRen
         {documentList.map((doc) => {
           return (
             <li>
-              <Link to={"/editor/"+doc.docId}>{doc.docName}</Link>
+                <Link to={"/editor/"+doc.docId}>{doc.docName}</Link>
               <IconButton onClick={() => onDeleteDocClick(userId, doc.docId)}><i className="material-icons">delete_forever</i></IconButton>
             </li>
           );

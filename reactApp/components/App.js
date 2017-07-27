@@ -21,7 +21,8 @@ const App = () => {
                   <Route exact path="/login" component={Login}/>
               </Switch>
           </HashRouter> */}
-          <EditorView />
+          <DocumentPortal />
+          {/* <EditorView /> */}
         </MuiThemeProvider>
       </div>
   );
