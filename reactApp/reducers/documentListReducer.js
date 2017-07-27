@@ -20,25 +20,6 @@ const documentListReducer = (state = [], action) => {
   }
     //TODO: add a shared doc to user and doc
   case 'ADD_SHARED_DOC': {
-    // update the doc
-    // Document.findById(action.docId)
-    //         .then((err, doc) => {
-    //           doc.collaborators = doc.collaborators.push({userId: action.userId});
-    //           doc.save();
-    //           return doc;
-    //         })
-    //         .then((doc) => {
-    //           // update the user
-    //           User.findById(action.userId)
-    //               .then((err, usr) => {
-    //                 usr.documentsShared = usr.documentsShared.push({docName: doc.title, docId: doc._id});
-    //                 usr.save();
-    //                 return {docsOwned: usr.documentsOwned, docsShared: usr.documentsShared};
-    //               });
-    //         })
-    //         .catch((err) => {
-    //           console.log('Error creating new document', err);
-    //         });
     console.log('action :', action);
     let newState = [...state];
     newState.push({docId: action.docId, docName: action.docName, isShared: action.isShared});

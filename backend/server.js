@@ -133,11 +133,13 @@ app.post('/create', function(req, res) {
 app.post('/addShared', function(req, res) {
   // req.body has userId, docId
   // TODO: update documents. Find by docId, add userId as collaborator.
-  console.log('req.body', req.body);
+  console.log('req.body in addShared', req.body);
   Document.findById(req.body.docId, function(err, doc){
     doc.collaborators.push(req.body.userId);
+    doc.save();
     User.findById(req.body.userId, function(err, usr){
       usr.documents.push({docName: doc.title, docId: req.body.docId, isShared: true});
+      usr.save();
       return res.send({docName: doc.title, docId: req.body.docId, isShared: true});
     });
   });

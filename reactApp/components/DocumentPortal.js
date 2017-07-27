@@ -34,6 +34,7 @@ const onNewDocClick = (userId, docName, onNewClick) => {
 const onSharedDocClick = (userId,  docId, onNewSharedClick) => {
   //send axios post request to local host 3000/addShared
   //then: dispatch action onSharedClick
+  console.log('about to post to addShared');
   axios.post('http://localhost:3005/addShared', {
     docId,
     userId,
@@ -202,7 +203,7 @@ class DocumentPortal extends React.Component {
             return (
               <li key={doc.id}>
                 <Link to={"/editor/"+doc.docId}>{doc.docName}</Link>
-                <IconButton onClick={() => onDeleteDocClick(this.props.userId, doc.docId)}><i className="material-icons">delete_forever</i></IconButton>
+                {doc.isShared ? <div></div> : <IconButton onClick={() => onDeleteDocClick(this.props.userId, doc.docId)}><i className="material-icons">delete_forever</i></IconButton>}
               </li>
             );
           })}
@@ -225,7 +226,7 @@ DocumentPortal.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    userId: '5979399388c8104810de6881',
+    userId: '597a1e71098ff0ff7ebca9c5',
     documentList: state.documentList
   };
 };
@@ -233,7 +234,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onNewClick: (userId, newDocName, docId) => dispatch(newDoc(userId, newDocName, docId)),
-    onNewSharedClick: (userId, newDocName, docId) => dispatch(addSharedDoc(userId, newDocName, docId)),
+    onNewSharedClick: (docName, docId, isShared) => dispatch(addSharedDoc(docName, docId, isShared)),
     onDeleteClick: (userId, docId) => dispatch(deleteDoc(userId, docId)),
     onOpenClick: (userId, docId) => dispatch(openDoc(userId, docId)),
     onRenderClick: (userId, documentList) => dispatch(renderDocs(userId, documentList))
