@@ -53,6 +53,11 @@ const documentListReducer = (state = [], action) => {
 
     return newState;
   }
+
+  case 'RENDER_DOCS': {
+    return action.documentList;
+  }
+
   default: {
     return state;
   }

@@ -2,22 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
-import {newDoc, addSharedDoc, deleteDoc, openDoc} from '../actions/actions.js';
+import {newDoc, addSharedDoc, deleteDoc, openDoc, renderDocs} from '../actions/actions.js';
 
+import {Link} from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
-import {indigo50, indigo100, red900} from 'material-ui/styles/colors';
 import NewDoc from 'material-ui/svg-icons/action/note-add';
 import {ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
 
+const onRenderDocsClick = (userId, onRenderClick) => {
+  axios.get('http://localhost:3005/render/'+userId)
+       .then((resp) => {
+         console.log('thisis the resp', resp);
+         onRenderClick(resp);
+       });
+};
+
 const onNewDocClick = (userId, docName, onNewClick) => {
+  console.log('about to post');
   axios.post('http://localhost:3005/create', {
     userId,
     docName,
   })
   .then((resp) => {
+    console.log('got to the then');
     onNewClick(resp.data.docName, resp.data.docId, resp.data.isShared);
   });
 };
@@ -25,7 +35,6 @@ const onNewDocClick = (userId, docName, onNewClick) => {
 const onSharedDocClick = (userId,  docId, onNewSharedClick) => {
   //send axios post request to local host 3000/addShared
   //then: dispatch action onSharedClick
-  console.log('In onSharedDocClick');
   axios.post('http://localhost:3005/addShared', {
     docId,
     userId,
@@ -54,87 +63,146 @@ const onDocOpenClick = (userId, docId) => {
 
 const colors = {
   TOP_FONT_COLOR: '#ffffff',
-  ADD_DOC_PAPER_COLOR: '#1d4e69',
-  TOP_PAPER_COLOR: '#cb3837'
+  ADD_DOC_PAPER_COLOR: '#325d77',
+  TOP_PAPER_COLOR: '#cb3837',
+  SHARED_DOC_PAPER_COLOR: '#1b73a7',
+  UNDERLINE_COLOR: 'rgba(0, 0, 0, 0)'
 };
 
 const tempStyles = {
-  separator: {
+  addDocSeparator: {
     'backgroundColor': colors.TOP_FONT_COLOR,
-    'position': 'relative',
     'marginLeft': '10%',
-    'marginRight': '10%',
+    'marginRight': '8%',
     'height': '50px',
     'marginTop': '-4px'
   },
-  textFieldStyle: {
+  addDocTextFieldStyle: {
     'fontColor': colors.TOP_FONT_COLOR,
     'color': colors.TOP_FONT_COLOR,
     'fontSize': '1.5em',
     'width': '50%',
     'height': '60px',
-    'marginRight': '14px',
     'marginLeft': '7%',
-    'marginTop': '5px'
+    'marginBottom': '5px'
   },
   topPaper: {
     'width': '100%',
     'height': '150px',
-    'display': 'flex',
-    'justifyContent': 'center',
-    'alignItems': 'center',
     'backgroundColor': colors.TOP_PAPER_COLOR
   },
   addDocPaper: {
-    'width': '700px',
+    'width': '60%',
     'height': '60px',
     'backgroundColor': colors.ADD_DOC_PAPER_COLOR,
-    'borderRadius': '5px'
+    'borderRadius': '5px',
+    'marginLeft': '20%'
   },
   newDocStyle: {
     'width': '36px',
     'height': '36px',
-    'marginRight': '',
     'color': colors.TOP_FONT_COLOR
   },
   newDocButtonStyle: {
     'width': '60px',
     'height': '60px',
-    'marginTop': '5px'
-  }
-
+    'marginRight': '8%'
+  },
+  sharedDocPaper: {
+    'width': '45%',
+    'height': '50px',
+    'backgroundColor': colors.SHARED_DOC_PAPER_COLOR,
+    'borderRadius': '5px',
+    'marginTop': '10px',
+    'marginLeft': '27.5%'
+  },
+  sharedDocTextFieldStyle: {
+    'fontColor': colors.TOP_FONT_COLOR,
+    'color': colors.TOP_FONT_COLOR,
+    'fontSize': '1.125em',
+    'width': '50%',
+    'height': '60px',
+    'marginLeft': '7%',
+    'marginBottom': '5px',
+    'marginTop': '-5px'
+  },
+  sharedDocSeparator: {
+    'backgroundColor': colors.TOP_FONT_COLOR,
+    'marginLeft': '10%',
+    'marginRight': '8%',
+    'height': '30px',
+    'marginTop': '-12px'
+  },
+  sharedDocStyle: {
+    'width': '25px',
+    'height': '25px',
+    'color': colors.TOP_FONT_COLOR
+  },
+  sharedDocButtonStyle: {
+    'width': '40px',
+    'height': '40px',
+    'marginRight': '8%',
+    'padding': '5px',
+    'marginBottom': '12px'
+  },
 };
 
-let DocumentPortal = ({userId, onNewClick, docId, onNewSharedClick}) => {
+let DocumentPortal = ({userId, onNewClick, onNewSharedClick, documentList, onRenderClick}) => {
   return (
     <div>
-
         <div>
           <Paper style={tempStyles.topPaper} zDepth={1} children={
-            <Paper style={tempStyles.addDocPaper} zDepth={2} children={
-              <ToolbarGroup>
-                <TextField
-                  hintText="Add new document..."
-                  underlineStyle={{borderColor: colors.ADD_DOC_PAPER_COLOR}}
-                  underlineFocusStyle={{borderColor: colors.ADD_DOC_PAPER_COLOR}}
-                  hintStyle={{color: colors.TOP_FONT_COLOR}}
-                  inputStyle={{color: colors.TOP_FONT_COLOR}}
-                  style={tempStyles.textFieldStyle}
-                />
-                <ToolbarSeparator style={tempStyles.separator}/>
-                <IconButton iconStyle={tempStyles.newDocStyle} style={tempStyles.newDocButtonStyle}>
-                  <NewDoc />
-                </IconButton>
-              </ToolbarGroup>
-            }/>
+            <div>
+              {/* // This is the Add New Doc Paper */}
+              <Paper style={tempStyles.addDocPaper} zDepth={2} children={
+                <ToolbarGroup>
+                  <TextField
+                    hintText="Add new document..."
+                    underlineStyle={{borderColor: colors.UNDERLINE_COLOR}}
+                    underlineFocusStyle={{borderColor: colors.UNDERLINE_COLOR}}
+                    hintStyle={{color: colors.TOP_FONT_COLOR, marginBottom: '5px'}}
+                    inputStyle={{color: colors.TOP_FONT_COLOR}}
+                    style={tempStyles.addDocTextFieldStyle}
+                    id="docName"
+                  />
+                  <ToolbarSeparator style={tempStyles.addDocSeparator}/>
+                  <IconButton onClick={() => onNewDocClick(userId, document.getElementById('docName').value, onNewClick)} iconStyle={tempStyles.newDocStyle} style={tempStyles.newDocButtonStyle}>
+                    <NewDoc />
+                  </IconButton>
+                </ToolbarGroup>
+              }/>
+              {/* // This is the Add Shared Doc Paper */}
+              <Paper style={tempStyles.sharedDocPaper} zDepth={2} children={
+                <ToolbarGroup>
+                  <TextField
+                    hintText="Add shared document..."
+                    underlineStyle={{borderColor: colors.UNDERLINE_COLOR}}
+                    underlineFocusStyle={{borderColor: colors.UNDERLINE_COLOR}}
+                    hintStyle={{color: colors.TOP_FONT_COLOR, marginBottom: '5px'}}
+                    inputStyle={{color: colors.TOP_FONT_COLOR}}
+                    style={tempStyles.sharedDocTextFieldStyle}
+                    id="docId"
+                  />
+                  <ToolbarSeparator style={tempStyles.sharedDocSeparator}/>
+                  <IconButton onClick={() => onSharedDocClick(userId, document.getElementById('docId').value, onNewSharedClick)} iconStyle={tempStyles.sharedDocStyle} style={tempStyles.sharedDocButtonStyle}>
+                    <NewDoc />
+                  </IconButton>
+                </ToolbarGroup>
+              }/>
+            </div>
           }/>
-
         </div>
-      <input type="text" id="docName" placeholder="New Document Name" ></input>
-      <button onClick={() => onNewDocClick(userId, document.getElementById('docName').value, onNewClick)}>Create</button><br></br>
-      <input type="text" id="docId" placeholder="Document ID"></input>
-      <button onClick={() => onSharedDocClick(userId, document.getElementById('docId').value, onNewSharedClick)}>Add</button>
-      <IconButton onClick={() => onDeleteDocClick(userId, docId)}><i className="material-icons">delete_forever</i></IconButton>
+        <ul>
+        {documentList.map((doc) => {
+          return (
+            <li>
+              <Link to={"/editor/"+doc.docId}>{doc.docName}</Link>
+              <IconButton onClick={() => onDeleteDocClick(userId, doc.docId)}><i className="material-icons">delete_forever</i></IconButton>
+            </li>
+          );
+        })}
+      </ul>
+
     </div>
   );
 };
@@ -144,12 +212,15 @@ DocumentPortal.propTypes = {
   onNewSharedClick: PropTypes.func,
   onDeleteClick: PropTypes.func,
   onOpenClick: PropTypes.func,
-  userId: PropTypes.String
+  onRenderClick: PropTypes.func,
+  userId: PropTypes.String,
+  documentList: PropTypes.array
 };
 
 const mapStateToProps = state => {
   return {
-    userId: '59791638b114ad48db864b00'
+    userId: '5979399388c8104810de6881',
+    documentList: state.documentList
   };
 };
 
@@ -159,6 +230,7 @@ const mapDispatchToProps = dispatch => {
     onNewSharedClick: (userId, newDocName, docId) => dispatch(addSharedDoc(userId, newDocName, docId)),
     onDeleteClick: (userId, docId) => dispatch(deleteDoc(userId, docId)),
     onOpenClick: (userId, docId) => dispatch(openDoc(userId, docId)),
+    onRenderClick: (userId, documentList) => dispatch(renderDocs(userId, documentList))
   };
 };
 
