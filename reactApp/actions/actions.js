@@ -9,6 +9,30 @@ export function onChangeAction(newEditorState) {
 // ------------------------------EditorView Actions-----------------------------
 // -----------------------------------------------------------------------------
 
+export function goBack() {
+  return {
+    type: 'BACK'
+  };
+}
+
+export function save(newEditorState) {
+  return {
+    type: 'SAVE',
+    newEditorState
+  };
+}
+
+export function requestClose() {
+  return {
+    type: 'CLOSE'
+  };
+}
+
+
+// -----------------------------------------------------------------------------
+// ------------------------------Toolbar Actions-----------------------------
+// -----------------------------------------------------------------------------
+
 export function onBoldClick(e) {
   e.preventDefault();
   return {

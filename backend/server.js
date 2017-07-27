@@ -44,7 +44,7 @@ app.post('/create', function(req, res) {
   const doc = new Document({
     title: req.body.docName,
     userOwnedId: req.body.userId,
-    collaborators: [req.body.userId]
+    collaborators: [req.body.userId],
   });
   // save the new doc to the db
   doc.save(function(err, docSaved) {
@@ -91,13 +91,16 @@ app.get('/open/:docId', function(req, res) {
 // -----------------------------EditorView Routes-------------------------------
 // -----------------------------------------------------------------------------
 
-app.post('save changes', function(req, res) {
-  var documentId = req.body.documentId; //i don't know what it is called
+app.post('/save', function(req, res) {
+  // console.log('in the server');
+  // console.log('REQ.BODY', req.body);
+  var documentId = req.body.docId;
   Document.findById(documentId, function(err, doc){
     if(err){
       console.log(err);
     } else {
-      doc.content = req.body.text; //i don't know how it works with react
+      console.log('doc', doc);
+      doc.editorState = req.body.editorState;
       doc.save(function(err){
         if(err){
           console.log(err);
