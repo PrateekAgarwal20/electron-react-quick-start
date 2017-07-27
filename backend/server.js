@@ -1,97 +1,32 @@
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
-var path = require('path');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var passport = require('passport');
-var LocalStrategy = require('passport-local');
-var mongoose = require('mongoose');
-var connect = process.env.MONGODB_URI;
 const express = require('express');
+const app = express();
 const models = require('./models/models');
 const Document = models.Document;
 const User = models.User;
 const bodyParser = require('body-parser');
-
-var REQUIRED_ENV = "SECRET MONGODB_URI".split(" ");
-
-REQUIRED_ENV.forEach(function(el) {
-  if (!process.env[el]){
-    console.error("Missing required env var " + el);
-    process.exit(1);
-  }
-});
-
-mongoose.connect(connect);
-
-var routes = require('./routes/routes');
-var auth = require('./routes/auth');
-var app = express();
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 // import mongoose from 'mongoose';
 // import Promise from 'promise';
 // mongoose.Promise = Promise;
-
-
-// -----------------------------------------------------------------------------
-// ------------------------Passport Initial Set Up------------------------------
-// -----------------------------------------------------------------------------
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Passport
-app.use(session({
-  secret: process.env.SECRET,
-  store: new MongoStore({ mongooseConnection: mongoose.connection })
-}));
-
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.serializeUser(function(user, done) {
-  done(null, user._id);
+// Example route
+app.get('/', function (req, res) {
+  res.send('Hello World!');
 });
 
-passport.deserializeUser(function(id, done) {
-  models.User.findById(id, done);
+// -----------------------------------------------------------------------------
+// ------------------------Login/Registration Routes----------------------------
+// -----------------------------------------------------------------------------
+app.post('/login', function(req, res){
+  // TODO: req will have username and pass. Check in Mongo,
+  // successRedirect: '/documents' IDEA: set state.userId to this user's id (maybe username too?)
+  // failureRedirect: '/login'
 });
 
-// passport strategy
-passport.use(new LocalStrategy(function(username, password, done) {
-    console.log("LocalStrategy");
-  // Find the user with the given username
-  models.User.findOne({ username: username }, function (err, user) {
-    // if there's an error, finish trying to authenticate (auth failed)
-    if (err) {
-      console.error('Error fetching user in LocalStrategy', err);
-      return done(err);
-    }
-    // if no user present, auth failed
-    if (!user) {
-      return done(null, false, { message: 'Incorrect username.' });
-    }
-    // if passwords do not match, auth failed
-    if (user.password !== password) {
-      return done(null, false, { message: 'Incorrect password.' });
-    }
-    // auth has has succeeded
-    return done(null, user);
-  });
-}
-));
-
-// -----------------------------------------------------------------------------
-// --------------------------Login/Register Routes------------------------------
-// -----------------------------------------------------------------------------
-
-app.use('/', auth(passport));
-app.use('/', routes);
+app.post('/register', function(req, res){
+  // TODO: req will have username and pass. Save new user in mongo
+  // redirect to login
+});
 
 // -----------------------------------------------------------------------------
 // --------------------------DocumentPortal Routes------------------------------
@@ -174,22 +109,6 @@ app.post('save changes', function(req, res) {
   });
 });
 
-// error handlers
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.send("Error:", err.message);
-});
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-var port = process.env.PORT || 3005;
-app.listen(port, function() {
-  console.log('Express started. Listening on port %s', port);
+app.listen(3005, function () {
+  console.log('Backend server for Electron App running on port 3005!');
 });
