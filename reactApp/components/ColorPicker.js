@@ -35,7 +35,7 @@ class ColorPicker extends React.Component {
   render() {
     return (
       <div>
-        <IconButton tooltip="color" tooltipPosition="top-right" onMouseDown={(e) => this.handleTouchTap(e)} ><i className="material-icons">format_color_text</i></IconButton>
+        <IconButton tooltip="color" tooltipPosition="top-right" onMouseDown={(e) => this.handleTouchTap(e)}><i className="material-icons">format_color_text</i></IconButton>
         <Popover
           open={this.state.open}
           anchorEl={this.state.anchorEl}

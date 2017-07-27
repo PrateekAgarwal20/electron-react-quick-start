@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const loginReducer = (state = {'username': "", 'password': "", 'id':""}, action) => {
-  console.log('actttttion:', action);
+  // console.log('actttttion:', action);
   switch (action.type) {
     case 'LOGIN':
     // get request to verify login
