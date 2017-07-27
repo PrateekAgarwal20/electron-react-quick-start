@@ -5,7 +5,7 @@ import editorReducer from './editorReducer';
 import documentListReducer from './documentListReducer';
 import loginReducer from './loginReducer';
 import registerReducer from './registerReducer';
-
+import colorReducer from './colorReducer';
 
 // import * as types from '../actions/types';
 
@@ -14,7 +14,8 @@ const rootReducer = combineReducers({
   documentList: documentListReducer,
   editorState: editorReducer,
   loginState: loginReducer,
-  registerState: registerReducer
+  registerState: registerReducer,
+  colorState: colorReducer
 });
 
 export default rootReducer;

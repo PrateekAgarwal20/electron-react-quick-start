@@ -7,19 +7,20 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 // TODO: delete
 import DocumentPortal from './DocumentPortal';
-
+import EditorView from './EditorView';
 const App = () => {
   return (
       <div>
         <MuiThemeProvider>
           {/* <DocumentPortal /> */}
-          <HashRouter>
+          {/* <HashRouter>
               <Switch>
                   <Route exact path="/" component={Login} />
                   <Route exact path="/register" component={Register}/>
                   <Route exact path="/login" component={Login}/>
               </Switch>
-          </HashRouter>
+          </HashRouter> */}
+          <EditorView />
         </MuiThemeProvider>
       </div>
   );

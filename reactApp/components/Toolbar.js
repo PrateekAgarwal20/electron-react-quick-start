@@ -46,17 +46,4 @@ Toolbar = connect(
     mapDispatchToProps
 )(Toolbar);
 
-
-
-
-
-// const InlineStyleControls = (props) => {
-//   var currentStyle = props.editorState.getCurrentInlineStyle();
-//   return (
-//
-//   );
-// };
-
-
-
 export default Toolbar;
