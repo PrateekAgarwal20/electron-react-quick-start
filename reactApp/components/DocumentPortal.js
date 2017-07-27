@@ -240,9 +240,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-DocumentPortal = connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(DocumentPortal);
-
-export default DocumentPortal;
