@@ -12,10 +12,9 @@ const App = () => {
   return (
       <div>
         <MuiThemeProvider>
-          {/* <DocumentPortal /> */}
           <HashRouter>
               <Switch>
-                  <Route exact path="/" component={Login} />
+                  <Route exact path="/" component={DocumentPortal} />
                   <Route exact path="/register" component={Register}/>
                   <Route exact path="/login" component={Login}/>
               </Switch>

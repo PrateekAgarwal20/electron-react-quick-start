@@ -1,7 +1,6 @@
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var path = require('path');
-var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
@@ -105,7 +104,7 @@ app.post('/create', function(req, res) {
   // });
   //
   // user.save();
-
+  console.log('create server portion');
   const doc = new Document({
     title: req.body.docName,
     userOwnedId: req.body.userId,
@@ -150,6 +149,14 @@ app.post('/delete', function(req, res) {
 
 app.get('/open/:docId', function(req, res) {
 
+});
+
+app.get('/render/:userId', function(req, res) {
+  //use mongo to get all the current documents.
+  console.log('in the server thing rn');
+  User.findById(req.params.userId, function(err, usr) {
+    return res.send(usr.documents);
+  });
 });
 
 // -----------------------------------------------------------------------------

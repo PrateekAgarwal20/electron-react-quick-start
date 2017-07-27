@@ -48,8 +48,11 @@ export function onCodeClick(e) {
 // ---------------------------DocumentPortal Actions----------------------------
 // -----------------------------------------------------------------------------
 
-export function renderDocs(userId) {
-
+export function renderDocs(documentList) {
+  return {
+    type: 'RENDER_DOCS',
+    documentList
+  };
 }
 
 export function newDoc(docName, docId, isShared) {

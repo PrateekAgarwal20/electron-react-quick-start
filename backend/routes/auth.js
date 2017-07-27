@@ -34,7 +34,7 @@ module.exports = function(passport) {
     // failureFlash: 'Invalid username or password.',
     console.log(req.user._id);
     // var newId = JSON.stringify(req.user._id)
-    res.json(req.user._id)
+    res.json(req.user._id);
   });
 
   return router;
