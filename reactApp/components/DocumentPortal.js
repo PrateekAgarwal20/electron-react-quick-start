@@ -6,51 +6,11 @@ import {newDoc, addSharedDoc, deleteDoc, openDoc} from '../actions/actions.js';
 
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
-import {indigo50, indigo100} from 'material-ui/styles/colors';
+import {indigo50, indigo100, red900} from 'material-ui/styles/colors';
 import NewDoc from 'material-ui/svg-icons/action/note-add';
-import {Toolbar, ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';
+import {ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
-
-const tempStyles = {
-  toolbarStyle: {
-    'backgroundColor': '#2481b7',
-    'height': '80px',
-    'width': '800px',
-    'justifyContent': 'center'
-  },
-  separator: {
-    'backgroundColor': indigo50,
-    'marginLeft': '15px',
-    'marginRight': '15px',
-    'height': '60px'
-  },
-  textFieldStyle: {
-    'fontColor': indigo50,
-    'fontSize': '1.5em',
-    'width': '550px',
-    'marginRight': '32px'
-  },
-  groupStyle: {
-    'display': 'flex',
-  },
-  topPaper: {
-    'width': '100%',
-    'height': '150px',
-    'justifyContent': 'center',
-    'alignItems': 'center'
-  },
-  newDocStyle: {
-    'width': '40px',
-    'height': '40px',
-    'color': indigo50
-  },
-  newDocButtonStyle: {
-    'width': '80px',
-    'height': '80px'
-  }
-
-};
 
 const onNewDocClick = (userId, docName, onNewClick) => {
   axios.post('http://localhost:3005/create', {
@@ -92,28 +52,81 @@ const onDocOpenClick = (userId, docId) => {
   //then dispatch action onOpenClick
 };
 
+const colors = {
+  TOP_FONT_COLOR: '#ffffff',
+  ADD_DOC_PAPER_COLOR: '#1d4e69',
+  TOP_PAPER_COLOR: '#cb3837'
+};
 
+const tempStyles = {
+  separator: {
+    'backgroundColor': colors.TOP_FONT_COLOR,
+    'position': 'relative',
+    'marginLeft': '10%',
+    'marginRight': '10%',
+    'height': '50px',
+    'marginTop': '-4px'
+  },
+  textFieldStyle: {
+    'fontColor': colors.TOP_FONT_COLOR,
+    'color': colors.TOP_FONT_COLOR,
+    'fontSize': '1.5em',
+    'width': '50%',
+    'height': '60px',
+    'marginRight': '14px',
+    'marginLeft': '7%',
+    'marginTop': '5px'
+  },
+  topPaper: {
+    'width': '100%',
+    'height': '150px',
+    'display': 'flex',
+    'justifyContent': 'center',
+    'alignItems': 'center',
+    'backgroundColor': colors.TOP_PAPER_COLOR
+  },
+  addDocPaper: {
+    'width': '700px',
+    'height': '60px',
+    'backgroundColor': colors.ADD_DOC_PAPER_COLOR,
+    'borderRadius': '5px'
+  },
+  newDocStyle: {
+    'width': '36px',
+    'height': '36px',
+    'marginRight': '',
+    'color': colors.TOP_FONT_COLOR
+  },
+  newDocButtonStyle: {
+    'width': '60px',
+    'height': '60px',
+    'marginTop': '5px'
+  }
+
+};
 
 let DocumentPortal = ({userId, onNewClick, docId, onNewSharedClick}) => {
   return (
     <div>
+
         <div>
           <Paper style={tempStyles.topPaper} zDepth={1} children={
-            <Toolbar style={tempStyles.toolbarStyle}>
-              <ToolbarGroup style={tempStyles.groupStyle}>
+            <Paper style={tempStyles.addDocPaper} zDepth={2} children={
+              <ToolbarGroup>
                 <TextField
-                  hintText="I like big butts and I cannot lie"
-                  underlineStyle={{color: indigo50}}
-                  underlineFocusStyle={{color: indigo50}}
-                  hintStyle={{color: indigo100}}
+                  hintText="Add new document..."
+                  underlineStyle={{borderColor: colors.ADD_DOC_PAPER_COLOR}}
+                  underlineFocusStyle={{borderColor: colors.ADD_DOC_PAPER_COLOR}}
+                  hintStyle={{color: colors.TOP_FONT_COLOR}}
+                  inputStyle={{color: colors.TOP_FONT_COLOR}}
                   style={tempStyles.textFieldStyle}
                 />
                 <ToolbarSeparator style={tempStyles.separator}/>
-                <IconButton tooltip="Create Document" iconStyle={tempStyles.newDocStyle} style={tempStyles.newDocButtonStyle}>
+                <IconButton iconStyle={tempStyles.newDocStyle} style={tempStyles.newDocButtonStyle}>
                   <NewDoc />
                 </IconButton>
               </ToolbarGroup>
-            </Toolbar>
+            }/>
           }/>
 
         </div>

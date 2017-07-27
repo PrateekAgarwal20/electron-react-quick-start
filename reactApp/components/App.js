@@ -5,10 +5,14 @@ import Register from './Register.js';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+// TODO: delete
+import DocumentPortal from './DocumentPortal';
+
 const App = () => {
   return (
       <div>
-          <MuiThemeProvider>
+        <MuiThemeProvider>
+          {/* <DocumentPortal /> */}
           <HashRouter>
               <Switch>
                   <Route exact path="/" component={Login} />
@@ -16,7 +20,7 @@ const App = () => {
                   <Route exact path="/login" component={Login}/>
               </Switch>
           </HashRouter>
-      </MuiThemeProvider>
+        </MuiThemeProvider>
       </div>
   );
 };
