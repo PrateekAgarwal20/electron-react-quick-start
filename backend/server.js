@@ -64,7 +64,7 @@ passport.deserializeUser(function(id, done) {
 
 // passport strategy
 passport.use(new LocalStrategy(function(username, password, done) {
-    console.log("LocalStrategy");
+  console.log("LocalStrategy");
   // Find the user with the given username
   models.User.findOne({ username: username }, function (err, user) {
     // if there's an error, finish trying to authenticate (auth failed)
