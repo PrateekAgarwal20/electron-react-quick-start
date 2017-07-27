@@ -91,7 +91,7 @@ export function onChangeColor(e) {
 export function renderDocs(documentList) {
   return {
     type: 'RENDER_DOCS',
-    documentList
+    documentList: documentList.data
   };
 }
 

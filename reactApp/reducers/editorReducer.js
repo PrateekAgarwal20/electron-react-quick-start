@@ -15,7 +15,7 @@ const editorReducer = (state = EditorState.createEmpty(), action) => {
   case 'CODE':
     return RichUtils.toggleInlineStyle(state, 'CODE');
   case 'CHANGE_COLOR':
-  console.log('in reducer');
+  console.log('in color reducer');
     return RichUtils.toggleInlineStyle(state, 'COLOR');
   default:
     return state;

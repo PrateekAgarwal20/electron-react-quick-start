@@ -15,7 +15,6 @@ import axios from 'axios';
 const onRenderDocsClick = (userId, onRenderClick) => {
   axios.get('http://localhost:3005/render/'+userId)
        .then((resp) => {
-         console.log('thisis the resp', resp);
          onRenderClick(resp);
        });
 };
@@ -51,7 +50,7 @@ const onSharedDocClick = (userId,  docId, onNewSharedClick) => {
 const onDeleteDocClick = (userId, docId) => {
   //send axios post request to local host 3000/delete
   //then: dispatch action onDeleteClick
-  axios.post('http://localhost:3005/delete', {
+  axios.post('http://localhost:3005/delete' + docId, {
 
   });
 };
@@ -147,66 +146,72 @@ const tempStyles = {
   },
 };
 
-let DocumentPortal = ({userId, onNewClick, onNewSharedClick, documentList, onRenderClick}) => {
-  return (
-    <div>
-        <div>
-          <Paper style={tempStyles.topPaper} zDepth={1} children={
-            <div>
-              {/* // This is the Add New Doc Paper */}
-              <Paper style={tempStyles.addDocPaper} zDepth={2} children={
-                <ToolbarGroup>
-                  <TextField
-                    hintText="Add new document..."
-                    underlineStyle={{borderColor: colors.UNDERLINE_COLOR}}
-                    underlineFocusStyle={{borderColor: colors.UNDERLINE_COLOR}}
-                    hintStyle={{color: colors.TOP_FONT_COLOR, marginBottom: '5px'}}
-                    inputStyle={{color: colors.TOP_FONT_COLOR}}
-                    style={tempStyles.addDocTextFieldStyle}
-                    id="docName"
-                  />
-                  <ToolbarSeparator style={tempStyles.addDocSeparator}/>
-                  <IconButton onClick={() => onNewDocClick(userId, document.getElementById('docName').value, onNewClick)} iconStyle={tempStyles.newDocStyle} style={tempStyles.newDocButtonStyle}>
-                    <NewDoc />
-                  </IconButton>
-                </ToolbarGroup>
-              }/>
-              {/* // This is the Add Shared Doc Paper */}
-              <Paper style={tempStyles.sharedDocPaper} zDepth={2} children={
-                <ToolbarGroup>
-                  <TextField
-                    hintText="Add shared document..."
-                    underlineStyle={{borderColor: colors.UNDERLINE_COLOR}}
-                    underlineFocusStyle={{borderColor: colors.UNDERLINE_COLOR}}
-                    hintStyle={{color: colors.TOP_FONT_COLOR, marginBottom: '5px'}}
-                    inputStyle={{color: colors.TOP_FONT_COLOR}}
-                    style={tempStyles.sharedDocTextFieldStyle}
-                    id="docId"
-                  />
-                  <ToolbarSeparator style={tempStyles.sharedDocSeparator}/>
-                  <IconButton onClick={() => onSharedDocClick(userId, document.getElementById('docId').value, onNewSharedClick)} iconStyle={tempStyles.sharedDocStyle} style={tempStyles.sharedDocButtonStyle}>
-                    <NewDoc />
-                  </IconButton>
-                </ToolbarGroup>
-              }/>
-            </div>
-          }/>
-        </div>
 
-        <ul>
-        {documentList.map((doc) => {
-          return (
-            <li key={doc.id}>
-              <Link to={"/editor/"+doc.docId}>{doc.docName}</Link>
-              <IconButton onClick={() => onDeleteDocClick(userId, doc.docId)}><i className="material-icons">delete_forever</i></IconButton>
-            </li>
-          );
-        })}
-      </ul>
+class DocumentPortal extends React.Component {
+  componentDidMount() {
+    onRenderDocsClick(this.props.userId, this.props.onRenderClick);
+  }
+  render(){
+    return (
+      <div>
+          <div>
+            <Paper style={tempStyles.topPaper} zDepth={1} children={
+              <div>
+                {/* // This is the Add New Doc Paper */}
+                <Paper style={tempStyles.addDocPaper} zDepth={2} children={
+                  <ToolbarGroup>
+                    <TextField
+                      hintText="Add new document..."
+                      underlineStyle={{borderColor: colors.UNDERLINE_COLOR}}
+                      underlineFocusStyle={{borderColor: colors.UNDERLINE_COLOR}}
+                      hintStyle={{color: colors.TOP_FONT_COLOR, marginBottom: '5px'}}
+                      inputStyle={{color: colors.TOP_FONT_COLOR}}
+                      style={tempStyles.addDocTextFieldStyle}
+                      id="docName"
+                    />
+                    <ToolbarSeparator style={tempStyles.addDocSeparator}/>
+                    <IconButton onClick={() => onNewDocClick(this.props.userId, document.getElementById('docName').value, this.props.onNewClick)} iconStyle={tempStyles.newDocStyle} style={tempStyles.newDocButtonStyle}>
+                      <NewDoc />
+                    </IconButton>
+                  </ToolbarGroup>
+                }/>
+                {/* // This is the Add Shared Doc Paper */}
+                <Paper style={tempStyles.sharedDocPaper} zDepth={2} children={
+                  <ToolbarGroup>
+                    <TextField
+                      hintText="Add shared document..."
+                      underlineStyle={{borderColor: colors.UNDERLINE_COLOR}}
+                      underlineFocusStyle={{borderColor: colors.UNDERLINE_COLOR}}
+                      hintStyle={{color: colors.TOP_FONT_COLOR, marginBottom: '5px'}}
+                      inputStyle={{color: colors.TOP_FONT_COLOR}}
+                      style={tempStyles.sharedDocTextFieldStyle}
+                      id="docId"
+                    />
+                    <ToolbarSeparator style={tempStyles.sharedDocSeparator}/>
+                    <IconButton onClick={() => onSharedDocClick(this.props.userId, document.getElementById('docId').value, this.props.onNewSharedClick)} iconStyle={tempStyles.sharedDocStyle} style={tempStyles.sharedDocButtonStyle}>
+                      <NewDoc />
+                    </IconButton>
+                  </ToolbarGroup>
+                }/>
+              </div>
+            }/>
+          </div>
 
-    </div>
-  );
-};
+          <ul>
+          {this.props.documentList.map((doc) => {
+            return (
+              <li key={doc.id}>
+                <Link to={"/editor/"+doc.docId}>{doc.docName}</Link>
+                <IconButton onClick={() => onDeleteDocClick(this.props.userId, doc.docId)}><i className="material-icons">delete_forever</i></IconButton>
+              </li>
+            );
+          })}
+        </ul>
+
+      </div>
+    );
+  }
+}
 
 DocumentPortal.propTypes = {
   onNewDocClick: PropTypes.func,
@@ -215,7 +220,7 @@ DocumentPortal.propTypes = {
   onOpenClick: PropTypes.func,
   onRenderClick: PropTypes.func,
   userId: PropTypes.String,
-  documentList: PropTypes.array
+  documentList: PropTypes.Array
 };
 
 const mapStateToProps = state => {
