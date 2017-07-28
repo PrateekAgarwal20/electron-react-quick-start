@@ -3,13 +3,10 @@ import Login from './Login.js';
 import Register from './Register.js';
 import DocumentPortal from './DocumentPortal.js';
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-// TODO: delete
-import DocumentPortal from './DocumentPortal';
-import EditorView from './EditorView';
+
 // import DocumentPortal from './DocumentPortal';
 
 

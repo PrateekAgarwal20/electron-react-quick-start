@@ -21,24 +21,26 @@ const onLoginClick = (username, password, onLogin) => {
 
 let Login = ({username, updateUsername, password, updatePassword, onLogin, auth}) => {
   return (
-        < div > <form method="POST" style={style()}>
-      <h3>Login</h3>
+        < div >
+        <AppBar showMenuIconButton={false} title="Login" iconClassNameRight="muidocs-icon-navigation-expand-more"/>
+        <form method="POST" style={style()}>
+        <div className="form-group">
+            <TextField hintText="here" floatingLabelText="Username" name="username" className="form-control" onChange={
+                (e) => {updateUsername(e.target.value); 
+                }}/><br/>
+        </div>
+        <div className="form-group">
+            <TextField type="password" hintText="here" floatingLabelText="Password" name="password" className="form-control"
+                onChange={(e) => {
+                updatePassword(e.target.value);
+            }}/><br/>
+        </div>
       <div className="form-group">
-          <label>Username</label>
-          <input type="text" name="username" className="form-control" onChange={(e) => updateUsername(e.target.value)}></input>
-      </div>
-      <div className="form-group">
-          <label>Password</label>
-          <input type="password" name="password" className="form-control" onChange={(e) => {
-            updatePassword(e.target.value);
-          }}></input>
-      </div>
-      <div className="form-group">
-          <button className="btn btn-success" onClick={(e) => {
+          <RaisedButton onClick={(e) => {
             e.preventDefault();
             onLoginClick(username, password, onLogin);
-          }}>Login</button>
-          <Link to="/register">Register</Link>
+        }} label="Log it mofokin in!"/>
+          <RaisedButton containerElement = { < Link to = "/Register" />}label = "Register" />
       </div>
   </form> < /div>
   );
