@@ -150,7 +150,11 @@ app.post('/delete', function(req, res) {
 });
 
 app.get('/open/:docId', function(req, res) {
-
+  console.log('req open docId', req.params);
+  Document.findById(req.params.docId, function(err, doc){
+    console.log('doc editorState', doc.editorState);
+    return res.send({title: doc.title, editorState: doc.editorState});
+  });
 });
 
 app.get('/render/:userId', function(req, res) {

@@ -14,7 +14,10 @@ const App = () => {
       <div>
         <MuiThemeProvider>
           <HashRouter>
-            <DocumentPortal />
+            <Switch>
+              <Route exact path="/" component={DocumentPortal} />
+              <Route path="/editor/:docId" component={EditorView} />
+            </Switch>
           </HashRouter>
 
           {/* <EditorView /> */}

@@ -28,6 +28,12 @@ export function requestClose() {
   };
 }
 
+export function getTitle(title) {
+  return {
+    type: 'TITLE',
+    title
+  };
+}
 
 // -----------------------------------------------------------------------------
 // ------------------------------Toolbar Actions-----------------------------
