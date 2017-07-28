@@ -62,8 +62,6 @@ class EditorView extends React.Component {
   }
 
   componentDidMount(){
-    console.log('params docId', this.props.match.params.docId);
-    console.log('props title', this.props.title);
     onRefresh(this.props.match.params.docId, this.props.onEditorChanged, this.props.onGetTitle);
   }
 

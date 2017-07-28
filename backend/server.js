@@ -52,9 +52,18 @@ io.on('connection', function(socket){
     // join room with name '{docId}'
     socket.join(docId);
     var socketIds = Object.keys(io.sockets.sockets);
-    console.log('all connected sockets', socketIds);
-    console.log('the list of rooms for socket 1', io.sockets.sockets[socketIds][0].rooms);
-    console.log('the list of rooms for socket 2', io.sockets.sockets[socketIds][1].rooms);
+    console.log('docId in server', docId);
+    console.log('this socket id', socket.id);
+
+
+    // TODO: log this all after emitting 'success' back to socket. log the rooms in socket ust to see if its some async stuff going on
+    var firstUser = socketIds[0];
+    var secondUser = socketIds[1];
+    console.log('fuser', firstUser);
+    console.log('the list of rooms for socket 1', socket.rooms);
+    if(secondUser){
+        console.log('the list of rooms for socket 2', secondUser.rooms);
+    }
   });
 });
 
@@ -211,7 +220,6 @@ app.get('/open/:docId', function(req, res) {
 app.get('/render/:userId', function(req, res) {
   //use mongo to get all the current documents.
   User.findById(req.params.userId, function(err, usr) {
-    console.log('userId', req.params.userId);
     return res.send(usr.documents);
   });
 });

@@ -220,6 +220,7 @@ const openButton = (docId, docName, socket) => (
       onClick={() => {
         history.push('/editor/'+docId);
         socket.emit('joinRoom', docId);
+
       }}
     >
       {docName}
@@ -239,7 +240,6 @@ DocumentPortal.propTypes = {
 };
 
 const mapStateToProps = state => {
-  console.log('statet', state);
   return {
     userId: state.loginState.userId,
     documentList: state.documentList

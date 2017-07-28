@@ -17,6 +17,9 @@ var socket = null;
 class App extends React.Component {
   componentWillMount() {
     socket = io('http://localhost:3005');
+    socket.on('successJoiningRoom', () => {
+      console.log('HEREHEHREHRE', this.props.socket.rooms);
+    });
   }
 
   render() {
