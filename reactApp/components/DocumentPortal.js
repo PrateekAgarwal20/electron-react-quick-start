@@ -240,7 +240,7 @@ DocumentPortal.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    userId: '597ac79318a6b236c7bbf91d',
+    userId: state.loginState.userId,
     documentList: state.documentList
   };
 };
