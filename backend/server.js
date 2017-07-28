@@ -98,7 +98,6 @@ passport.deserializeUser(function(id, done) {
 
 // passport strategy
 passport.use(new LocalStrategy(function(username, password, done) {
-  console.log("LocalStrategy");
   // Find the user with the given username
   models.User.findOne({ username: username }, function (err, user) {
     // if there's an error, finish trying to authenticate (auth failed)
@@ -139,7 +138,6 @@ app.post('/create', function(req, res) {
   //
   // user.save();
 
-  console.log('create server portion');
   const doc = new Document({
     title: req.body.docName,
     userOwnedId: req.body.userId,
@@ -168,7 +166,6 @@ app.post('/create', function(req, res) {
 app.post('/addShared', function(req, res) {
   // req.body has userId, docId
   // TODO: update documents. Find by docId, add userId as collaborator.
-  console.log('req.body in addShared', req.body);
   Document.findById(req.body.docId, function(err, doc){
     doc.collaborators.push(req.body.userId);
     doc.save();
@@ -201,13 +198,11 @@ app.post('/delete/:docId', function(req, res) {
 });
 
 app.get('/open/:docId', function(req, res) {
-  console.log('req open docId', req.params);
   Document.findById(req.params.docId, function(err, doc){
     if(!doc){
       console.log('could not find doc');
       return null;
     } else {
-      console.log('doc editorState', doc.editorState);
       return res.send({title: doc.title, editorState: doc.editorState});
     }
   });
@@ -216,6 +211,7 @@ app.get('/open/:docId', function(req, res) {
 app.get('/render/:userId', function(req, res) {
   //use mongo to get all the current documents.
   User.findById(req.params.userId, function(err, usr) {
+    console.log('userId', req.params.userId);
     return res.send(usr.documents);
   });
 });
@@ -230,13 +226,10 @@ app.post('/save', function(req, res) {
     if(err){
       console.log(err);
     } else {
-      console.log('doc', doc);
       doc.editorState = req.body.editorState;
       doc.save(function(err){
         if(err){
           console.log(err);
-        } else {
-          console.log("Document save!!!");
         }
       });
     }
