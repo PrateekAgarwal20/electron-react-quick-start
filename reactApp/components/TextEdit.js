@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {onChangeAction, onChangeColor} from '../actions/actions.js'; // import relevant actions
 
 let TextEdit = ({editorState, onChange, colorState, onColorChange}) => {
-
+  console.log('edst inside textedit', editorState);
   return (
       <div>
         <Editor

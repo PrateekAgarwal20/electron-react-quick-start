@@ -1,4 +1,5 @@
 import React from 'react';
+import {EditorState} from 'draft-js';
 import TextEdit from './TextEdit.js';
 import Toolbar from './Toolbar.js';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -22,12 +23,16 @@ const styles = {
 };
 
 const onRefresh = (docId, onEditorChanged, onGetTitle) => {
-  // TODO: get request to mongo for docName, editorState
-  // dispatch action to update current state.docName   onEditorChanged  onGetTitle
   axios.get('http://localhost:3005/open/'+docId)
        .then((resp) => {
          // TODO: fix save in order to save something to editor state then test if this part works as well
-         onEditorChanged(resp.editorState);
+         console.log('editor state', resp.data);
+
+         var editorState = resp.data.editorState;
+         var content = editorState.getCurrentContent();
+         var newEditorState = EditorState.createWithContent(content, );
+
+         onEditorChanged(newEditorState);
          onGetTitle(resp.data.title);
        });
 };
@@ -45,6 +50,7 @@ class EditorView extends React.Component {
     }
 
     render() {
+      console.log('editor state inside editor view', this.props.editorState);
       return (
         <div className='outsideStyle'>
           <AppBar
@@ -53,7 +59,7 @@ class EditorView extends React.Component {
             }}
             title={<span style={styles.title}>{this.props.titleState}</span>}
             iconElementLeft={<IconButton onClick={() => this.props.onBack()}><i className="material-icons">arrow_back</i></IconButton>}
-            iconElementRight={<FlatButton onClick={() => this.props.onSaveClick(this.props.match.params.docId, this.props.editorState)} label="Save Changes" />}
+            iconElementRight={<FlatButton onClick={() => onSaveClick(this.props.match.params.docId, this.props.editorState)} label="Save Changes" />}
           />
           <MuiThemeProvider>
             <Toolbar />
@@ -99,9 +105,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-EditorView = connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(EditorView);
-
-export default EditorView;

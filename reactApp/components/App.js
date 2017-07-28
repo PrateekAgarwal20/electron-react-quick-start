@@ -6,6 +6,7 @@ import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import EditorView from './EditorView';
 
 // import DocumentPortal from './DocumentPortal';
 
@@ -31,10 +32,11 @@ let App = ({userId}) => {
                     userId ? (<Redirect to="/document"/>) : (<Login/>)} />
                   <Route exact path="/document" component={DocumentPortal}/>
               </Switch>
-          </HashRouter>
+          </HashRouter>*/}
       </div>
   );
 };
+
 
 DocumentPortal.propTypes = {
   auth: PropTypes.bool
@@ -55,5 +57,6 @@ App = connect(
     mapStateToProps,
     mapDispatchToProps
 )(App);
+
 
 export default App;
