@@ -7,6 +7,7 @@ module.exports = function(passport) {
 
   router.post('/signup', function(req, res) {
     // validation step
+    console.log("good stuff");
     console.log(req.body.username);
     if (req.body.password!==req.body.passwordRepeat) {
       return res.send("Passwords don't match."
@@ -22,7 +23,7 @@ module.exports = function(passport) {
         res.status(500).redirect('/register');
         return;
       }
-      console.log(user);
+
       res.send("registered");
     });
   });
@@ -33,7 +34,7 @@ module.exports = function(passport) {
     // failureFlash: 'Invalid username or password.',
     console.log(req.user._id);
     // var newId = JSON.stringify(req.user._id)
-    res.json(req.user._id);
+    return res.send({userId: req.user._id});
   });
 
   return router;
