@@ -34,6 +34,33 @@ app.use(bodyParser.urlencoded({extended: false}));
 // mongoose.Promise = Promise;
 
 
+
+// -----------------------------------------------------------------------------
+// ---------------------------------Socket IO-----------------------------------
+// -----------------------------------------------------------------------------
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+app.get('/', function(req, res){
+  var socket = io();
+  res.send('Hello World');
+});
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
+
+/*
+Socket is created every time there is a new user
+When a user opens a document, they enter (or create) a room
+s
+
+*/
+
+
+
+
+
 // -----------------------------------------------------------------------------
 // ------------------------Passport Initial Set Up------------------------------
 // -----------------------------------------------------------------------------
@@ -180,7 +207,6 @@ app.get('/open/:docId', function(req, res) {
 
 app.get('/render/:userId', function(req, res) {
   //use mongo to get all the current documents.
-  console.log('in the server thing rn');
   User.findById(req.params.userId, function(err, usr) {
     return res.send(usr.documents);
   });
@@ -191,8 +217,6 @@ app.get('/render/:userId', function(req, res) {
 // -----------------------------------------------------------------------------
 
 app.post('/save', function(req, res) {
-  // console.log('in the server');
-  // console.log('REQ.BODY', req.body);
   var documentId = req.body.docId;
   Document.findById(documentId, function(err, doc){
     if(err){
@@ -211,6 +235,10 @@ app.post('/save', function(req, res) {
   });
 });
 
+// -----------------------------------------------------------------------------
+// -------------------------------Error Handlers--------------------------------
+// -----------------------------------------------------------------------------
+
 // error handlers
 // production error handler
 // no stacktraces leaked to user
@@ -227,6 +255,6 @@ app.use(function(req, res, next) {
 });
 
 var port = process.env.PORT || 3005;
-app.listen(port, function() {
+http.listen(port, function() {
   console.log('Express started. Listening on port %s', port);
 });
