@@ -149,6 +149,7 @@ const tempStyles = {
 class DocumentPortal extends React.Component {
   componentDidMount() {
     onRenderDocsClick(this.props.userId, this.props.onRenderClick);
+
   }
   render(){
     return (
@@ -224,7 +225,7 @@ DocumentPortal.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    userId: '5979399388c8104810de6881',
+    userId: '597ac79318a6b236c7bbf91d',
     documentList: state.documentList
   };
 };

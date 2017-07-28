@@ -96,14 +96,14 @@ app.use('/', routes);
 // --------------------------DocumentPortal Routes------------------------------
 // -----------------------------------------------------------------------------
 app.post('/create', function(req, res) {
-  // Create new document
   // const user = new User({
-  //   username: 'spike',
-  //   password: '1',
+  //   username: 'arip',
+  //   password: 'mr.poopybutthole',
   //   documents: []
   // });
   //
   // user.save();
+
   console.log('create server portion');
   const doc = new Document({
     title: req.body.docName,
