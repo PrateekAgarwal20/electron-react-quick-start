@@ -42,12 +42,14 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 app.get('/', function(req, res){
-  var socket = io();
   res.send('Hello World');
 });
 
 io.on('connection', function(socket){
   console.log('a user connected');
+  socket.on('joinRoom', (docId) => {
+    console.log('docId', docId);
+  });
 });
 
 /*

@@ -14,7 +14,6 @@ import {goBack, requestClose, getTitle, onChangeAction} from '../actions/actions
 import {connect} from 'react-redux';
 import axios from 'axios';
 
-// TODO: import {Documents} from 'path to models'
 
 const styles = {
   title: {
@@ -49,7 +48,7 @@ const onSaveClick = (docId, editorState, snackSave) => {
 };
 
 const BackButton = withRouter(({ history}) => (
-  <IconButton onClick={() => { history.push('/'); }}>
+  <IconButton onClick={() => { history.push('/main'); }}>
     <i className="material-icons">arrow_back</i>
   </IconButton>
 ));

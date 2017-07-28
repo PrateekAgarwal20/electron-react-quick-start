@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import {newDoc, addSharedDoc, deleteDoc, openDoc, renderDocs} from '../actions/actions.js';
 
-import {Link} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import NewDoc from 'material-ui/svg-icons/action/note-add';
@@ -149,8 +149,8 @@ const tempStyles = {
 class DocumentPortal extends React.Component {
   componentDidMount() {
     onRenderDocsClick(this.props.userId, this.props.onRenderClick);
-
   }
+
   render(){
     return (
       <div>
@@ -201,7 +201,7 @@ class DocumentPortal extends React.Component {
           {this.props.documentList.map((doc) => {
             return (
               <li key={doc.id}>
-                <Link to={"/editor/"+doc.docId}>{doc.docName}</Link>
+                {openButton(doc.docId, doc.docName, this.props.socket)}
                 {doc.isShared ? <div></div> : <IconButton onClick={() => onDeleteDocClick(this.props.userId, doc.docId, this.props.onDeleteClick)}><i className="material-icons">delete_forever</i></IconButton>}
               </li>
             );
@@ -212,6 +212,21 @@ class DocumentPortal extends React.Component {
     );
   }
 }
+
+const openButton = (docId, docName, socket) => (
+  // socket stuff
+  <Route render={({ history}) => (
+    <span
+      onClick={() => {
+        history.push('/editor/'+docId);
+        socket.emit('joinRoom', docId);
+      }}
+    >
+      {docName}
+    </span>
+  )}
+/>
+);
 
 DocumentPortal.propTypes = {
   onNewDocClick: PropTypes.func,
