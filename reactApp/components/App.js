@@ -10,8 +10,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 const App = () => {
   return (
       <div>
-        <MuiThemeProvider>
-          {/* <DocumentPortal /> */}
           <HashRouter>
               <Switch>
                   <Route exact path="/" component={Login} />
@@ -19,7 +17,6 @@ const App = () => {
                   <Route exact path="/login" component={Login}/>
               </Switch>
           </HashRouter>
-        </MuiThemeProvider>
       </div>
   );
 };

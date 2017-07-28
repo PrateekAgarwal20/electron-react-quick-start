@@ -1,29 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
+import AppBar from 'material-ui/AppBar';
 import {connect} from 'react-redux';
 import {saveUsername, savePassword, login} from '../actions/actions.js';
 import { Link} from 'react-router-dom';
 
 let Login = ({username, updateUsername, password, updatePassword, onSubmit}) => {
   return (
-      < div > <form method="POST" style={style()}>
-    <h3>Login</h3>
+     < div >
+      <AppBar showMenuIconButton={false} title="Login" iconClassNameRight="muidocs-icon-navigation-expand-more"/>
+      <form method="POST" style={style()}>
     <div className="form-group">
-        <label>Username</label>
-        <input type="text" name="username" className="form-control" onChange={(e) => updateUsername(e.target.value)}></input>
+        <TextField hintText="here" floatingLabelText="Username" name="username" className="form-control" onChange={(e) => updateUsername(e.target.value)}/><br/>
     </div>
     <div className="form-group">
-        <label>Password</label>
-        <input type="password" name="password" className="form-control" onChange={(e) => {
-          updatePassword(e.target.value);
-        }}></input>
+        <TextField type="password" hintText="here" floatingLabelText="Password" name="password" className="form-control" onChange={(e) => {
+            updatePassword(e.target.value);
+        }}/><br/>
     </div>
     <div className="form-group">
-        <button className="btn btn-success" onClick={(e) => {
+        <RaisedButton onClick={(e) => {
           e.preventDefault();
           onSubmit(username, password);
-        }}>Login</button>
-        <Link to="/register">Register</Link>
+      }} label="Login"/>
+      <RaisedButton containerElement={<Link to="/register"/>} label="Register"/>
     </div>
 </form> < /div>
   );

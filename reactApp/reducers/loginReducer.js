@@ -1,12 +1,11 @@
 import axios from 'axios';
 
 const loginReducer = (state = {'username': "", 'password': "", 'id':""}, action) => {
-  console.log('actttttion:', action);
   switch (action.type) {
     case 'LOGIN':
     // get request to verify login
     var newId = ""
-    const newState = Object.assign(state);
+    const newState = Object.assign({}, state);
 
     axios.post('http://localhost:3005/login', {
       password: state.password,
@@ -28,13 +27,13 @@ const loginReducer = (state = {'username': "", 'password': "", 'id':""}, action)
 
 
     case 'USERNAME':
-          const newState2 = Object.assign(state);
+          const newState2 = Object.assign({}, state);
           newState2.username = action.username
     return newState2;
 
     case 'PASSWORD':
         console.log(state);
-        const newState3 = Object.assign(state);
+        const newState3 = Object.assign({}, state);
         newState3.password = action.password
     return newState3;
     default:

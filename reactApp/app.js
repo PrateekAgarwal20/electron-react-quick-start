@@ -4,6 +4,9 @@ import App from './components/App.js';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from './reducers/index';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 const store = createStore(rootReducer);
 require('../css/main.css');
 
@@ -13,8 +16,10 @@ require('../css/main.css');
 // .then(text => console.log(text))
 // .catch(err => {throw err})
 ReactDOM.render(
-     <Provider store={store}>
-        <App />
-     </Provider>,
+    <Provider store={store}>
+        <MuiThemeProvider>
+            <App />
+        </MuiThemeProvider>
+    </Provider>,
      document.getElementById('root')
    );
