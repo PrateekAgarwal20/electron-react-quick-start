@@ -9,8 +9,6 @@ import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import ActionHome from 'material-ui/svg-icons/action/home';
 import AppBar from 'material-ui/AppBar';
-import SvgIcon from 'material-ui/SvgIcon';
-import {blue500, red500, greenA200} from 'material-ui/styles/colors';
 import FlatButton from 'material-ui/FlatButton';
 import NewDoc from 'material-ui/svg-icons/action/note-add';
 import {ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';
@@ -250,8 +248,9 @@ DocumentPortal.propTypes = {
 };
 
 const mapStateToProps = state => {
+  console.log('statet', state);
   return {
-    userId: '597ac79318a6b236c7bbf91d',
+    userId: state.loginState.userId,
     documentList: state.documentList
   };
 };
