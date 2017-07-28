@@ -7,6 +7,9 @@ import {newDoc, addSharedDoc, deleteDoc, openDoc, renderDocs} from '../actions/a
 import {Route} from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
+import ActionHome from 'material-ui/svg-icons/action/home';
+import AppBar from 'material-ui/AppBar';
+import FlatButton from 'material-ui/FlatButton';
 import NewDoc from 'material-ui/svg-icons/action/note-add';
 import {ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';
 import Paper from 'material-ui/Paper';
@@ -155,6 +158,12 @@ class DocumentPortal extends React.Component {
     return (
       <div>
           <div>
+              <AppBar
+                  title="Mofokin Home"
+                  iconClassNameRight="muidocs-icon-navigation-expand-more"
+                  iconElementLeft={<IconButton><ActionHome /></IconButton>}
+                iconElementRight={<FlatButton label="Log me Mofokin out!" />}
+                />
             <Paper style={tempStyles.topPaper} zDepth={1} children={
               <div>
                 {/* // This is the Add New Doc Paper */}
