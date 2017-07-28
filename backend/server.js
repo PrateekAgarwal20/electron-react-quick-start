@@ -51,20 +51,12 @@ io.on('connection', function(socket){
   socket.on('joinRoom', (docId) => {
     // join room with name '{docId}'
     socket.join(docId);
-    var socketIds = Object.keys(io.sockets.sockets);
-    console.log('docId in server', docId);
-    console.log('this socket id', socket.id);
+    //var socketIds = Object.keys(io.sockets.sockets);
+  });
 
-
-    // TODO: log this all after emitting 'success' back to socket. log the rooms in socket ust to see if its some async stuff going on
-    var firstUser = socketIds[0];
-    var secondUser = socketIds[1];
-    console.log('allusers', socketIds);
-    console.log('fuser', firstUser);
-    console.log('the list of rooms for socket 1', socket.rooms);
-    if(secondUser){
-        console.log('the list of rooms for socket 2', secondUser.rooms);
-    }
+  socket.on('editorChange', (docId, editorState) => {
+    // broadcast updates to the other people in the room
+    io.to(docId).emit('updateEditor', editorState);
   });
 });
 

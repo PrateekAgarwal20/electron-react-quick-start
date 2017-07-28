@@ -227,6 +227,7 @@ const openButton = (docId, docName, socket) => (
   <Route render={({ history}) => (
     <span
       onClick={() => {
+        console.log('/editor/'+docId);
         history.push('/editor/'+docId);
         socket.emit('joinRoom', docId);
 
