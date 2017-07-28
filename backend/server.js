@@ -145,8 +145,24 @@ app.post('/addShared', function(req, res) {
   });
 });
 
-app.post('/delete', function(req, res) {
+app.post('/delete/:docId', function(req, res) {
+  Document.findById(req.body.docId, function(err, doc) {
+    if (doc) {
+      doc.collaborators.forEach(function(usrId) {
+        User.findById(usrId, function(err, usr) {
+          for (var i = 0; i < usr.documents.length; i++) {
+            if (usr.documents[i].docId === req.body.docId) {
+              usr.documents.splice(i, 1);
+            }
+          }
+          usr.save();
+        });
+      });
+      doc.remove();
+    }
 
+    return res.send("removed!");
+  });
 });
 
 app.get('/open/:docId', function(req, res) {

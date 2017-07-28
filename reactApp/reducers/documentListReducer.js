@@ -29,9 +29,11 @@ const documentListReducer = (state = [], action) => {
 
   case 'DELETE_DOC': {
     let newState = [...state];
-    //TODO: need to go throuhg newState and delete specific doc.
-
-
+    for (var i = 0; i < newState.length; i++) {
+      if (newState[i].docId === action.docId) {
+        newState.splice(i, 1);
+      }
+    }
     return newState;
   }
 
