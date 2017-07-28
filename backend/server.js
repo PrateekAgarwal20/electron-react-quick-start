@@ -59,6 +59,7 @@ io.on('connection', function(socket){
     // TODO: log this all after emitting 'success' back to socket. log the rooms in socket ust to see if its some async stuff going on
     var firstUser = socketIds[0];
     var secondUser = socketIds[1];
+    console.log('allusers', socketIds);
     console.log('fuser', firstUser);
     console.log('the list of rooms for socket 1', socket.rooms);
     if(secondUser){
