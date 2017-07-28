@@ -48,11 +48,14 @@ const onSharedDocClick = (userId,  docId, onNewSharedClick) => {
     //then: dispatch action onNewClick
 };
 
-const onDeleteDocClick = (userId, docId) => {
+const onDeleteDocClick = (userId, docId, onDeleteClick) => {
   //send axios post request to local host 3000/delete
   //then: dispatch action onDeleteClick
-  axios.post('http://localhost:3005/delete' + docId, {
-
+  axios.post('http://localhost:3005/delete/' + docId, {
+    docId,
+    userId
+  }).then(() => {
+    onDeleteClick(userId, docId);
   });
 };
 
@@ -198,7 +201,7 @@ class DocumentPortal extends React.Component {
             return (
               <li key={doc.id}>
                 <Link to={"/editor/"+doc.docId}>{doc.docName}</Link>
-                {doc.isShared ? <div></div> : <IconButton onClick={() => onDeleteDocClick(this.props.userId, doc.docId)}><i className="material-icons">delete_forever</i></IconButton>}
+                {doc.isShared ? <div></div> : <IconButton onClick={() => onDeleteDocClick(this.props.userId, doc.docId, this.props.onDeleteClick)}><i className="material-icons">delete_forever</i></IconButton>}
               </li>
             );
           })}
