@@ -35,7 +35,9 @@ class App extends React.Component {
               <Route exact path="/main" render={() => (
                 <DocumentPortal socket={socket}/>
               )}/>
-              <Route path="/editor/:docId" component={EditorView} />
+              <Route path="/editor/:docId" render={(props) => (
+                <EditorView {...props} socket={socket}/>
+              )}/>
           </Switch>
       </HashRouter>
     );
