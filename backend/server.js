@@ -47,8 +47,14 @@ app.get('/', function(req, res){
 
 io.on('connection', function(socket){
   console.log('a user connected');
+
   socket.on('joinRoom', (docId) => {
-    console.log('docId', docId);
+    // join room with name '{docId}'
+    socket.join(docId);
+    var socketIds = Object.keys(io.sockets.sockets);
+    console.log('all connected sockets', socketIds);
+    console.log('the list of rooms for socket 1', io.sockets.sockets[socketIds][0].rooms);
+    console.log('the list of rooms for socket 2', io.sockets.sockets[socketIds][1].rooms);
   });
 });
 
