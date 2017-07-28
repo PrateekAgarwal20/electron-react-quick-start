@@ -39,7 +39,9 @@ const onRefresh = (docId, onEditorChanged, onGetTitle) => {
        });
 };
 
-const onSaveClick = (docId, editorState) => {
+const onSaveClick = (docId, editorState, snackSave) => {
+  snackSave();
+
   axios.post('http://localhost:3005/save', {
     docId,
     editorState: convertToRaw(editorState.getCurrentContent())
@@ -53,10 +55,32 @@ const BackButton = withRouter(({ history}) => (
 ));
 
 class EditorView extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      snackbarOpen: false
+    };
+  }
+
   componentDidMount(){
     console.log('params docId', this.props.match.params.docId);
     console.log('props title', this.props.title);
     onRefresh(this.props.match.params.docId, this.props.onEditorChanged, this.props.onGetTitle);
+  }
+
+  snackSave() {
+    console.log('enters snacksave');
+    console.log('before', this.state.snackbarOpen);
+    this.setState({
+      snackbarOpen: true
+    });
+    console.log('after', this.state.snackbarOpen);
+  }
+
+  handleRequestClose() {
+    this.setState({
+      snackbarOpen: false,
+    });
   }
 
   render() {
@@ -70,7 +94,9 @@ class EditorView extends React.Component {
           title={<span style={styles.title}>{this.props.titleState}</span>}
           // iconElementLeft={<IconButton onClick={() => this.props.onBack()}><i className="material-icons">arrow_back</i></IconButton>}
           iconElementLeft={<BackButton />}
-          iconElementRight={<FlatButton onClick={() => onSaveClick(this.props.match.params.docId, this.props.editorState)} label="Save Changes" />}
+          iconElementRight={<FlatButton onClick={() => {
+            onSaveClick(this.props.match.params.docId, this.props.editorState, () => this.snackSave());
+          }} label="Save Changes" />}
         />
         <MuiThemeProvider>
           <Toolbar />
@@ -78,10 +104,10 @@ class EditorView extends React.Component {
         <div className='textStyle'><TextEdit/></div>
         <div>
           <Snackbar
-            open={open}
+            open={this.state.snackbarOpen}
             message="Changes saved!"
             autoHideDuration={1000}
-            onRequestClose={() => this.props.handleRequestClose()}
+            onRequestClose={() => this.handleRequestClose()}
           />
         </div>
       </div>
@@ -111,7 +137,7 @@ const mapDispatchToProps = dispatch => {
     handleRequestClose: () => dispatch(requestClose()),
     onBack: () => dispatch(goBack()),
     onEditorChanged: (newEditorState) => dispatch(onChangeAction(newEditorState)),
-    onGetTitle: (title) => dispatch(getTitle(title))
+    onGetTitle: (title) => dispatch(getTitle(title)),
     // onSave: (editorState) => dispatch(save(editorState)),
   };
 };
