@@ -56,11 +56,6 @@ const onDeleteDocClick = (userId, docId) => {
   });
 };
 
-const onDocOpenClick = (userId, docId) => {
-  //send axios get request to local host 3000/open?docId=
-  //then dispatch action onOpenClick
-};
-
 const colors = {
   TOP_FONT_COLOR: '#ffffff',
   ADD_DOC_PAPER_COLOR: '#325d77',
@@ -226,7 +221,7 @@ DocumentPortal.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    userId: '597a1e71098ff0ff7ebca9c5',
+    userId: '5979399388c8104810de6881',
     documentList: state.documentList
   };
 };

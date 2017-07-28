@@ -10,7 +10,7 @@ import EditorView from './EditorView';
 
 // import DocumentPortal from './DocumentPortal';
 
-
+// TODO: When we switch this back to login, make sure to switch '/' in the back button to the documentPortal ('/home')??
 let App = ({userId}) => {
   return (
       <div>

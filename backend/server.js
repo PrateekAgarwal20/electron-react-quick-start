@@ -152,8 +152,13 @@ app.post('/delete', function(req, res) {
 app.get('/open/:docId', function(req, res) {
   console.log('req open docId', req.params);
   Document.findById(req.params.docId, function(err, doc){
-    console.log('doc editorState', doc.editorState);
-    return res.send({title: doc.title, editorState: doc.editorState});
+    if(!doc){
+      console.log('could not find doc');
+      return null;
+    } else {
+      console.log('doc editorState', doc.editorState);
+      return res.send({title: doc.title, editorState: doc.editorState});
+    }
   });
 });
 
