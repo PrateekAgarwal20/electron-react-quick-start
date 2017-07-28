@@ -104,7 +104,7 @@ app.post('/create', function(req, res) {
   // });
   //
   // user.save();
-
+  console.log('create server portion');
   const doc = new Document({
     title: req.body.docName,
     userOwnedId: req.body.userId,
@@ -133,11 +133,13 @@ app.post('/create', function(req, res) {
 app.post('/addShared', function(req, res) {
   // req.body has userId, docId
   // TODO: update documents. Find by docId, add userId as collaborator.
-  console.log('req.body', req.body);
+  console.log('req.body in addShared', req.body);
   Document.findById(req.body.docId, function(err, doc){
     doc.collaborators.push(req.body.userId);
+    doc.save();
     User.findById(req.body.userId, function(err, usr){
       usr.documents.push({docName: doc.title, docId: req.body.docId, isShared: true});
+      usr.save();
       return res.send({docName: doc.title, docId: req.body.docId, isShared: true});
     });
   });
@@ -149,6 +151,14 @@ app.post('/delete', function(req, res) {
 
 app.get('/open/:docId', function(req, res) {
 
+});
+
+app.get('/render/:userId', function(req, res) {
+  //use mongo to get all the current documents.
+  console.log('in the server thing rn');
+  User.findById(req.params.userId, function(err, usr) {
+    return res.send(usr.documents);
+  });
 });
 
 // -----------------------------------------------------------------------------

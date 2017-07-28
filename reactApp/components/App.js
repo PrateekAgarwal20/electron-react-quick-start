@@ -8,6 +8,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 // TODO: delete
+import DocumentPortal from './DocumentPortal';
+import EditorView from './EditorView';
 // import DocumentPortal from './DocumentPortal';
 
 
@@ -15,7 +17,9 @@ let App = ({userId}) => {
   return (
       <div>
         <MuiThemeProvider>
-          {/* <DocumentPortal /> */}
+          <HashRouter>
+            <DocumentPortal />
+          </HashRouter>
           <HashRouter>
               <Switch>
                   <Route exact path="/" render={() =>
@@ -27,6 +31,7 @@ let App = ({userId}) => {
                   <Route exact path="/document" component={DocumentPortal}/>
               </Switch>
           </HashRouter>
+
         </MuiThemeProvider>
       </div>
   );

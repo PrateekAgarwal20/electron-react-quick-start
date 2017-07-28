@@ -70,3 +70,22 @@
   /* Support for IE. */
   font-feature-settings: 'liga';
 }
+
+/*----------------------------------------------------------------------------*/
+/*---------------------------DocumentPortal Styles----------------------------*/
+/*----------------------------------------------------------------------------*/
+/*const colors = {
+  TOP_FONT_COLOR: '#ffffff',
+  ADD_DOC_PAPER_COLOR: '#325d77',
+  TOP_PAPER_COLOR: '#cb3837',
+  SHARED_DOC_PAPER_COLOR: '#1b73a7',
+  UNDERLINE_COLOR: 'rgba(0, 0, 0, 0)'
+}*/
+
+.addDocSeparator {
+  backgroundColor: #ffffff;
+  marginLeft: 10%;
+  marginRight: 8%;
+  height: 50px;
+  marginTop: -4px;
+}

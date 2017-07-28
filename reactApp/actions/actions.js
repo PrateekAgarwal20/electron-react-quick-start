@@ -68,12 +68,31 @@ export function onCodeClick(e) {
   };
 }
 
+export function onColorClickAction(color, e) {
+  console.log('in colorclickaction');
+  e.preventDefault();
+  return {
+    type: 'COLOR',
+    color: color
+  };
+}
+
+export function onChangeColor(e) {
+  e.preventDefault();
+  return {
+    type: 'CHANGE_COLOR',
+  };
+}
+
 // -----------------------------------------------------------------------------
 // ---------------------------DocumentPortal Actions----------------------------
 // -----------------------------------------------------------------------------
 
-export function renderDocs(userId) {
-
+export function renderDocs(documentList) {
+  return {
+    type: 'RENDER_DOCS',
+    documentList: documentList.data
+  };
 }
 
 export function newDoc(docName, docId, isShared) {
