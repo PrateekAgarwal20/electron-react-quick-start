@@ -6,7 +6,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import AppBar from 'material-ui/AppBar';
 import {regUsername, regPassword, verPassword, register} from '../actions/actions.js'
-import { Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+
 
 const onRegisterClick = (username, password, verPassword, onSubmit) => {
   axios.post('http://localhost:3005/signup', {

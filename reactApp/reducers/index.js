@@ -7,7 +7,7 @@ import editorViewOpenReducer from './editorViewOpenReducer';
 import editorViewRedirectReducer from './editorViewRedirectReducer';
 import loginReducer from './loginReducer';
 import registerReducer from './registerReducer';
-
+import colorReducer from './colorReducer';
 
 // import * as types from '../actions/types';
 
@@ -18,7 +18,8 @@ const rootReducer = combineReducers({
   editorViewRedirectState: editorViewRedirectReducer,
   editorState: editorReducer,
   loginState: loginReducer,
-  registerState: registerReducer
+  registerState: registerReducer,
+  colorState: colorReducer
 });
 
 export default rootReducer;

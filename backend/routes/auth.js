@@ -33,8 +33,13 @@ module.exports = function(passport) {
     // successFlash: 'Welcome!',
     // failureFlash: 'Invalid username or password.',
     console.log(req.user._id);
+    console.log('hiiiiiiiiiiiiiiii');
     // var newId = JSON.stringify(req.user._id)
-    res.json(req.user._id)
+<<<<<<< HEAD
+    return res.send({userId: req.user._id});
+=======
+    res.json(req.user._id);
+>>>>>>> b97e89f8a9a65927a95a2d5b5e64950e806f053a
   });
 
   return router;

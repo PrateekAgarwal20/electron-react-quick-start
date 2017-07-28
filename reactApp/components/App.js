@@ -1,24 +1,54 @@
 import React from 'react';
 import Login from './Login.js';
 import Register from './Register.js';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import DocumentPortal from './DocumentPortal.js';
+import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 // TODO: delete
+import DocumentPortal from './DocumentPortal';
+import EditorView from './EditorView';
 // import DocumentPortal from './DocumentPortal';
 
-const App = () => {
+
+let App = ({userId}) => {
   return (
       <div>
           <HashRouter>
               <Switch>
-                  <Route exact path="/" component={Login} />
+                  <Route exact path="/" render={() =>
+                    userId ? (<Redirect to="/document"/>) : (<Redirect to="/login"/>)
+                  }/>
                   <Route exact path="/register" component={Register}/>
-                  <Route exact path="/login" component={Login}/>
+                  <Route exact path="/login" render={() =>
+                    userId ? (<Redirect to="/document"/>) : (<Login/>)} />
+                  <Route exact path="/document" component={DocumentPortal}/>
               </Switch>
           </HashRouter>
       </div>
   );
 };
+
+DocumentPortal.propTypes = {
+  auth: PropTypes.bool
+};
+
+const mapStateToProps = state => {
+  return {
+    userId: state.loginState.userId
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+  };
+};
+
+App = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App);
 
 export default App;

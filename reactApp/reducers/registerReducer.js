@@ -4,18 +4,22 @@ const loginReducer = (state = {'regUsername': "", 'regPassword': "", 'verPasswor
   switch (action.type) {
     case 'REGISTER':{
     // gpost registration request
+
         let newState = Object.assign({}, state)
             newState.regUsername = ""
             newState.regPassword = ""
             newState.verPassword = ""
         return newState;}
 
+
     case 'REGUSERNAME':{
+
         let newState2 = Object.assign({}, state);
         newState2.regUsername = action.regUsername
     return newState2;}
 
     case 'REGPASSWORD':{
+
         let newState3 = Object.assign({}, state);
         newState3.regPassword = action.regPassword
     return newState3;}

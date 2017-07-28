@@ -14,6 +14,9 @@ const editorReducer = (state = EditorState.createEmpty(), action) => {
     return RichUtils.toggleInlineStyle(state, 'UNDERLINE');
   case 'CODE':
     return RichUtils.toggleInlineStyle(state, 'CODE');
+  case 'CHANGE_COLOR':
+  console.log('in color reducer');
+    return RichUtils.toggleInlineStyle(state, 'COLOR');
   default:
     return state;
   }

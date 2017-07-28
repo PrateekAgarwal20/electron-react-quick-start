@@ -12,13 +12,14 @@ router.get('/', function(req, res, next) {
 
 ///////////////////////////// END OF PUBLIC ROUTES /////////////////////////////
 
-router.use(function(req, res, next){
-  if (!req.user) {
-    res.redirect('/login');
-  } else {
-    return next();
-  }
-});
+// TODO: I commented this out because it automatically reroutes to login for testing
+// router.use(function(req, res, next){
+//   if (!req.user) {
+//     res.redirect('/login');
+//   } else {
+//     return next();
+//   }
+// });
 
 //////////////////////////////// PRIVATE ROUTES ////////////////////////////////
 // Only logged in users can see these routes
