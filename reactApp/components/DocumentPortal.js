@@ -6,7 +6,6 @@ import {newDoc, addSharedDoc, deleteDoc, openDoc} from '../actions/actions.js';
 
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
-import {indigo50, indigo100, red900} from 'material-ui/styles/colors';
 import NewDoc from 'material-ui/svg-icons/action/note-add';
 import {ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';
 import Paper from 'material-ui/Paper';
@@ -144,7 +143,7 @@ DocumentPortal.propTypes = {
   onNewSharedClick: PropTypes.func,
   onDeleteClick: PropTypes.func,
   onOpenClick: PropTypes.func,
-  userId: PropTypes.String
+  userId: PropTypes.string
 };
 
 const mapStateToProps = state => {

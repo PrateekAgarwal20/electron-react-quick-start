@@ -110,9 +110,10 @@ export function deleteDoc(userId, docId) {
   };
 }
 
-export function login() {
+export function login(userId) {
   return {
     type: 'LOGIN',
+    userId
   };
 }
 

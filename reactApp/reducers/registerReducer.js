@@ -10,24 +10,24 @@ const loginReducer = (state = {'regUsername': "", 'regPassword': "", 'verPasswor
             password: state.regPassword,
             passwordRepeat: state.verPassword
         })
-        let newState = Object.assign(state)
+        let newState = Object.assign({}, state)
             newState.regUsername = ""
             newState.regPassword = ""
             newState.verPassword = ""
         return newState;
 
     case 'REGUSERNAME':
-        let newState2 = Object.assign(state);
+        let newState2 = Object.assign({}, state);
         newState2.regUsername = action.regUsername
     return newState2;
 
     case 'REGPASSWORD':
-        let newState3 = Object.assign(state);
+        let newState3 = Object.assign({}, state);
         newState3.regPassword = action.regPassword
     return newState3;
 
     case 'VERPASSWORD':
-        let newState4 = Object.assign(state);
+        let newState4 = Object.assign({}, state);
         newState4.verPassword = action.verPassword
     return newState4;
 

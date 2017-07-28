@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {regUsername, regPassword, verPassword, register} from '../actions/actions.js'
-import { Link} from 'react-router-dom';
+import {regUsername, regPassword, verPassword, register} from '../actions/actions.js';
+import {Link} from 'react-router-dom';
 
 let Register = ({username, password, verPassword, updateUsername, updatePassword, updateVerPassword, onSubmit}) => {
   return (
