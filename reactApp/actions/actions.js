@@ -76,6 +76,7 @@ export function onCodeClick(e) {
 
 export function onColorClickAction(color, e) {
   console.log('in colorclickaction');
+  console.log('event:', e);
   e.preventDefault();
   return {
     type: 'COLOR',
