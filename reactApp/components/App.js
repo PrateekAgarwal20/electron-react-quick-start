@@ -17,6 +17,9 @@ var socket = null;
 class App extends React.Component {
   componentWillMount() {
     socket = io('http://localhost:3005');
+    socket.on('successJoiningRoom', () => {
+      console.log('HEREHEHREHRE', this.props.socket.rooms);
+    });
   }
 
   render() {
@@ -32,7 +35,9 @@ class App extends React.Component {
               <Route exact path="/main" render={() => (
                 <DocumentPortal socket={socket}/>
               )}/>
-              <Route path="/editor/:docId" component={EditorView} />
+              <Route path="/editor/:docId" render={(props) => (
+                <EditorView {...props} socket={socket}/>
+              )}/>
           </Switch>
       </HashRouter>
     );

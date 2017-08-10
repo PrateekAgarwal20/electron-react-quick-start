@@ -51,10 +51,12 @@ io.on('connection', function(socket){
   socket.on('joinRoom', (docId) => {
     // join room with name '{docId}'
     socket.join(docId);
-    var socketIds = Object.keys(io.sockets.sockets);
-    console.log('all connected sockets', socketIds);
-    console.log('the list of rooms for socket 1', io.sockets.sockets[socketIds][0].rooms);
-    console.log('the list of rooms for socket 2', io.sockets.sockets[socketIds][1].rooms);
+    //var socketIds = Object.keys(io.sockets.sockets);
+  });
+
+  socket.on('editorChange', (docId, editorState) => {
+    // broadcast updates to the other people in the room
+    io.to(docId).emit('updateEditor', editorState);
   });
 });
 
@@ -213,7 +215,6 @@ app.get('/open/:docId', function(req, res) {
 app.get('/render/:userId', function(req, res) {
   //use mongo to get all the current documents.
   User.findById(req.params.userId, function(err, usr) {
-    console.log('userId', req.params.userId);
     return res.send(usr.documents);
   });
 });

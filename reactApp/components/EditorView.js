@@ -22,18 +22,16 @@ const styles = {
 };
 
 const onRefresh = (docId, onEditorChanged, onGetTitle) => {
+
   axios.get('http://localhost:3005/open/'+docId)
        .then((resp) => {
          // TODO: fix save in order to save something to editor state then test if this part works as well
-         console.log('refreshing', resp.data);
-
          const editorState = resp.data.editorState;
          if(!editorState){
            onEditorChanged(EditorState.createEmpty());
          } else {
            onEditorChanged(EditorState.createWithContent(convertFromRaw(editorState)));
          }
-         console.log('can you do this?');
          onGetTitle(resp.data.title);
        });
 };
@@ -62,8 +60,7 @@ class EditorView extends React.Component {
   }
 
   componentDidMount(){
-    console.log('params docId', this.props.match.params.docId);
-    console.log('props title', this.props.title);
+    console.log('props', this.props);
     onRefresh(this.props.match.params.docId, this.props.onEditorChanged, this.props.onGetTitle);
   }
 
@@ -83,7 +80,7 @@ class EditorView extends React.Component {
   }
 
   render() {
-    console.log('editor state inside editor view', this.props.editorState);
+    const docId = this.props.match.params.docId;
     return (
       <div className='outsideStyle'>
         <AppBar
@@ -94,13 +91,13 @@ class EditorView extends React.Component {
           // iconElementLeft={<IconButton onClick={() => this.props.onBack()}><i className="material-icons">arrow_back</i></IconButton>}
           iconElementLeft={<BackButton />}
           iconElementRight={<FlatButton onClick={() => {
-            onSaveClick(this.props.match.params.docId, this.props.editorState, () => this.snackSave());
+            onSaveClick(docId, this.props.editorState, () => this.snackSave());
           }} label="Save Changes" />}
         />
         <MuiThemeProvider>
           <Toolbar />
         </MuiThemeProvider>
-        <div className='textStyle'><TextEdit/></div>
+        <div className='textStyle'><TextEdit socket={this.props.socket} docId={docId}/></div>
         <div>
           <Snackbar
             open={this.state.snackbarOpen}
