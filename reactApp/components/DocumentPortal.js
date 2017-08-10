@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import { Link} from 'react-router-dom';
 
-import {newDoc, addSharedDoc, deleteDoc, openDoc, renderDocs} from '../actions/actions.js';
+import {newDoc, addSharedDoc, deleteDoc, openDoc, renderDocs, logout} from '../actions/actions.js';
 
 import {Route} from 'react-router-dom';
 import TextField from 'material-ui/TextField';
@@ -11,7 +12,7 @@ import ActionHome from 'material-ui/svg-icons/action/home';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import NewDoc from 'material-ui/svg-icons/action/note-add';
-import {ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';
+import {ToolbarGroup} from 'material-ui/Toolbar';
 import Paper from 'material-ui/Paper';
 import axios from 'axios';
 
@@ -65,7 +66,7 @@ const onDeleteDocClick = (userId, docId, onDeleteClick) => {
 const colors = {
   TOP_FONT_COLOR: '#ffffff',
   ADD_DOC_PAPER_COLOR: '#325d77',
-  TOP_PAPER_COLOR: '#cb3837',
+  TOP_PAPER_COLOR: '#F5F5F5',
   SHARED_DOC_PAPER_COLOR: '#1b73a7',
   UNDERLINE_COLOR: 'rgba(0, 0, 0, 0)'
 };
@@ -88,8 +89,13 @@ const tempStyles = {
     'marginBottom': '5px'
   },
   topPaper: {
+    'display': 'flex',
+    'justifyContent': 'center',
+    'alignItems': 'center',
     'width': '100%',
-    'height': '150px',
+    'height': 'auto',
+    "minWidth": "200px",
+    "minHeight": "420px",
     'backgroundColor': colors.TOP_PAPER_COLOR
   },
   addDocPaper: {
@@ -105,9 +111,10 @@ const tempStyles = {
     'color': colors.TOP_FONT_COLOR
   },
   newDocButtonStyle: {
-    'width': '60px',
-    'height': '60px',
-    'marginRight': '8%'
+    'width': '200px',
+    'height': '80px',
+    'marginRight': '8%',
+    'marginBottom': '1%',
   },
   sharedDocPaper: {
     'width': '45%',
@@ -140,12 +147,20 @@ const tempStyles = {
     'color': colors.TOP_FONT_COLOR
   },
   sharedDocButtonStyle: {
-    'width': '40px',
-    'height': '40px',
+    'width': '60px',
+    'height': '70px',
     'marginRight': '8%',
     'padding': '5px',
     'marginBottom': '12px'
   },
+};
+
+const onLogout = (userId) => {
+    console.log("onLogout");
+  axios.get('http://localhost:3005/logout')
+  .then((resp) => {
+    logout();
+  });
 };
 
 
@@ -162,26 +177,29 @@ class DocumentPortal extends React.Component {
                   title="Mofokin Home"
                   iconClassNameRight="muidocs-icon-navigation-expand-more"
                   iconElementLeft={<IconButton><ActionHome /></IconButton>}
-                iconElementRight={<FlatButton label="Log me Mofokin out!" />}
+                iconElementRight={<FlatButton label="Log me Mofokin out!"
+                    onClick={(e) => {
+                //   e.preventDefault();
+                  onLogout(this.props.userId);
+              }}/>}
                 />
             <Paper style={tempStyles.topPaper} zDepth={1} children={
               <div>
                 {/* // This is the Add New Doc Paper */}
                 <Paper style={tempStyles.addDocPaper} zDepth={2} children={
                   <ToolbarGroup>
-                    <TextField
-                      hintText="Add new document..."
-                      underlineStyle={{borderColor: colors.UNDERLINE_COLOR}}
-                      underlineFocusStyle={{borderColor: colors.UNDERLINE_COLOR}}
-                      hintStyle={{color: colors.TOP_FONT_COLOR, marginBottom: '5px'}}
-                      inputStyle={{color: colors.TOP_FONT_COLOR}}
-                      style={tempStyles.addDocTextFieldStyle}
-                      id="docName"
-                    />
-                    <ToolbarSeparator style={tempStyles.addDocSeparator}/>
-                    <IconButton onClick={() => onNewDocClick(this.props.userId, document.getElementById('docName').value, this.props.onNewClick)} iconStyle={tempStyles.newDocStyle} style={tempStyles.newDocButtonStyle}>
-                      <NewDoc />
-                    </IconButton>
+                        <TextField
+                          hintText="Add new document..."
+                          underlineStyle={{borderColor: colors.UNDERLINE_COLOR}}
+                          underlineFocusStyle={{borderColor: colors.UNDERLINE_COLOR}}
+                          hintStyle={{color: colors.TOP_FONT_COLOR, marginBottom: '5px'}}
+                          inputStyle={{color: colors.TOP_FONT_COLOR}}
+                          style={tempStyles.addDocTextFieldStyle}
+                          id="docName"
+                        />
+                        <IconButton onClick={() => onNewDocClick(this.props.userId, document.getElementById('docName').value, this.props.onNewClick)} iconStyle={tempStyles.newDocStyle} style={tempStyles.newDocButtonStyle}>
+                          <NewDoc />
+                        </IconButton>
                   </ToolbarGroup>
                 }/>
                 {/* // This is the Add Shared Doc Paper */}
@@ -196,12 +214,11 @@ class DocumentPortal extends React.Component {
                       style={tempStyles.sharedDocTextFieldStyle}
                       id="docId"
                     />
-                    <ToolbarSeparator style={tempStyles.sharedDocSeparator}/>
                     <IconButton onClick={() => onSharedDocClick(this.props.userId, document.getElementById('docId').value, this.props.onNewSharedClick)} iconStyle={tempStyles.sharedDocStyle} style={tempStyles.sharedDocButtonStyle}>
                       <NewDoc />
                     </IconButton>
                   </ToolbarGroup>
-                }/>
+              }/>
               </div>
             }/>
           </div>
@@ -261,7 +278,8 @@ const mapDispatchToProps = dispatch => {
     onNewSharedClick: (docName, docId, isShared) => dispatch(addSharedDoc(docName, docId, isShared)),
     onDeleteClick: (userId, docId) => dispatch(deleteDoc(userId, docId)),
     onOpenClick: (userId, docId) => dispatch(openDoc(userId, docId)),
-    onRenderClick: (userId, documentList) => dispatch(renderDocs(userId, documentList))
+    onRenderClick: (userId, documentList) => dispatch(renderDocs(userId, documentList)),
+    logout: (userId) => dispatch(logout(userId))
   };
 };
 

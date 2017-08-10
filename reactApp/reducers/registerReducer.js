@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 const loginReducer = (state = {'regUsername': "", 'regPassword': "", 'verPassword': ""}, action) => {
   switch (action.type) {
     case 'REGISTER':{

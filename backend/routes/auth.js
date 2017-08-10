@@ -30,11 +30,13 @@ module.exports = function(passport) {
 
   // POST Login page
   router.post('/login', passport.authenticate('local'),function(req, res){
-    // successFlash: 'Welcome!',
-    // failureFlash: 'Invalid username or password.',
     console.log(req.user._id);
-    // var newId = JSON.stringify(req.user._id)
     return res.send({userId: req.user._id});
+  });
+
+  router.get('/logout', function(req, res) {
+      console.log("get logout route");
+    req.logout();
   });
 
   return router;

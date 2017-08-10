@@ -16,6 +16,13 @@ const loginReducer = (state = {'username': "", 'password': "", 'userId':""}, act
     newState3.password = action.password;
     return newState3;
   }
+  case 'LOGOUT':{
+      const newState4 = Object.assign({}, state);
+      newState4.password = ""
+      newState4.username = ""
+      newState4.userId = ""
+      return newState4;
+  }
   default:
     return state;
   }

@@ -143,6 +143,13 @@ export function login(userId) {
   };
 }
 
+export function logout(userId) {
+  return {
+    type: 'LOGOUT',
+    userId
+  };
+}
+
 export function saveUsername(username) {
   return {
     type: 'USERNAME',
